@@ -30,145 +30,97 @@ def delete_collection(coll_ref, batch_size):
 
 #Borra colecciones
 
-wlc1_credentials = {
-    'ip': "x.x.x.x",
-    'device_type': "",
-    'username': "-",
-    'password': "-"}
+#mainAp_credentials pasaria a ser el router principal del daisy chain
+
+
+mainAp_credentials = {
+    'ip': "192.168.1.1",
+    'device_type': "autodetect",
+    'username': "root",
+    'password': "admin"}
 # Formato de las credenciales necesarias para la conexion con el wireless lan controller 
 
 try:
-    connection1 = nk.ConnectHandler(**wlc1_credentials)
-    print("*********WLC1**********")
-    # section show ap summary
+    connection1 = nk.ConnectHandler(**mainAp_credentials)
+    mainAp_data = connection1.send_command("iwinfo wl1 assoclist")
+    # Se obtiene la data de los clientes conectados al AP principal del daisy chain
+    # Se puede trabajar la data aqui o se puede mandar a ejecutar un script en el router
+    Ap_Iplist = []  # Lista de direcciones ip de los Ap Asociados
+    #rssi_list=[]
+    Ap_Iplist.append("192.168.1.1")
+    mainAp_data_splitline = mainAp_data.splitlines()[1::1]
+     # Se particiona la informacion de lista de routers asociados y se crea una lista 
 
-    ap_client = connection1.send_command("show client summary username")
-    # Se obtiene la MAC y username de clientes y se almacena en ap_cliente
-    
-    macs = []  # Lista de direcciones MAC de los clientes
-    client_list = ap_client.splitlines()[5::1]
-     # Se particiona la informacion de show client summary name y se crea una lista 
+    for i in mainAp_data_splitline:
+        mainAp_data_list = i.split()
+        Ap_Iplist.append(mainAp_data_list[0])
+        #rssi_list.append(client_data[1])
 
-    for i in client_list:
-        client_data = i.split()
-        # and ("N/A" not in client_data[3])) or ((client_data[1] == "Domo_Teleco1") and ("N/A" not in client_data[3])):
-        if (client_data[1] == "Domo_Teleco2") or (client_data[1] == "Domo_Teleco1"):
-            macs.append(client_data[0])
-    
-    #Se recorre la lista client_list y por cada elemento se realiza un split y se verifica si son Domo_Teleco2 o 1 para filtrar
-    #cuales MACS estan bajo estos APs que tienen solapamiento 
-    print(macs)
+    #OBTENER MACS DE LOS DISPOSITIVOS CONECTADOS EN LA RED
+    macsClientes = []
+    #Apip_pormac = []
+    rssis_pormac = []
 
-    # section show client detail MAC
-    usmac = []
-    usernames = []
-    apnames = []
-    rssis = []
-    nearrssi = []
-    ssid = []
-    nearAP = []
-    distancia = []
+    for ip in Ap_Iplist:
+        Ap_credentials = {
+                'ip': ip,
+                'device_type': "autodetect",
+                'username': "root",
+                'password': "admin"}
+        connection2 = nk.ConnectHandler(**Ap_credentials)
+        #Realizo conexion SSH para cada Ap que tenga en mi lista
+            
+        client_data = connection2.send_command("/etc/show_wifi_clients.sh")
+        client_data_splitline = client_data.splitlines()[X::1]
+        for i in client_data_splitline:
+            client_data_list=i.split()
+            macsClientes.append(client_data_list[2])
+
+            #OBTENGO MI MACS DE DISPOSITIVOS CONECTADOS A ESTE AP
+
+
+   
+    distancia_pormac = []
     prompt = connection1.find_prompt()
     #Listas a ser llenadas con info recopilada por cada dispositivo conectado en los AP que se solapan 
 
-    for m in macs:
-        command = "show client detail " + m
-        print(command)
-        connection1.write_channel(f"{command}\n")
-        time.sleep(0.075)
-        # Se recorren las macs que estan en el area de solapamiento y por cada una se ejecuta el comando show client detail
+    for m in macsClientes:
+        for ip in Ap_Iplist:
+            Ap_credentials = {
+                'ip': ip,
+                'device_type': "autodetect",
+                'username': "root",
+                'password': "admin"}
+            connection3 = nk.ConnectHandler(**Ap_credentials)
+            #Realizo conexion SSH para cada Ap que tenga en mi lista
 
-        output = ""
-        page = ""
-        i = 0
-        while True:
-            try:
-                if(i < 7):
-                    page = connection1.read_until_pattern(f"More|{prompt}")
-                    # print(page)
-                else:
-                    page = connection1.read_until_pattern(
-                        f"More|{prompt}|\n|\t|\s")
+            client_rssi = connection3.send_command("COMANDO PARA OBTENER EL RSSI PARA UNA MAC ESPECIFICA ")
 
-                    # print(page)
-                if "More" in page:
-                    output += page
-                    connection1.write_channel(" ")
-                    time.sleep(0.075)
-                elif prompt in page:
-                    output += page
-                    print("****Command Out*****")
-                    break
-                i += 1
-            except NetmikoTimeoutException:
-                print("****EXCEPTION*****")
-                break
-        #Se esta leyendo a traves de la conexion con show client detail 7 veces , al final verifica si hay mas info que mostrar
-        # y envia al canal " " para que se siga mostrando, vuelve a leer y todo finalmente se almacena en output
-        out_data = output.splitlines()[1::1]
-        #Se da formato a lo que se tiene en output particionando para luego recorrer 
-        username = ""
-        apname = ""
-        ssi = ""
-        rssi = ""
-        tiempo = ""
+            #Obtengo el valor de RSSI medido de un cliente en un AP al que me estoy conectando por SSH 
+            rssis_pormac.append(client_rssi)
+            #Apip_pormac.append(ip)
+            time.sleep(0.075)
+            #Obtengo para esa MAC , el valor de RSSI especifico que le marca cada AP
+            now = datetime.now()
+            timestamp = datetime.timestamp(now)
 
-        valor_rssi = []  # Valor RSSI vecinos
-        near_name = []  # nombre vecinos
-
-        for o in out_data:
-            item = o.split()
-            if((len(item) == 4) and ("Username" in item[1])): # Nombre de Usuario
-                usernames.append(item[3])
-                username = item[3]
-            if((len(item) == 3) and ("Name" in item[1])):  # Nombre del Ap
-                apnames.append(item[2])
-                apname = item[2]
-            if((len(item) == 6) and ("SSID" in item[4])):  # SSID
-                ssid.append(item[5])
-                ssi = item[5]
-            if((len(item) == 6) and ("Indicator" in item[3])):  # RSSI
-                rssis.append(item[4])
-                rssi = int(item[4])
-            # Nombre de Aps vecinos
-            # Nombre de Aps vecino directo DOMO TELECO 1 o DOMO TELECO 2
-            if((len(item) == 2) and ("0)" in item[1])):
-                np = item[0][0:-5]
-                #print("AA", np)
-                if(np != apname and np != "Direccion" and np != "Admin_Tec"):
-                    near_name.append(np)
-            # RSSI de Ap vecinos
-            # RSSI de Ap vecinos (En este caso vecino directo DOMO TELECO1 o DOMO TELECO 2)
-            if((len(item) == 6) and ("antenna0:" in item[0])) and ((len(near_name) == 1)):
-                vr = int(item[4])
-                valor_rssi.append(vr)
-                if(len(valor_rssi) > 1):
-                    # print("SSSS")
-                    # print(vr)
-                    valor_rssi.pop(1)
-        nearAP.append(near_name)
-        nearrssi.append(valor_rssi)
-        now = datetime.now()
-        timestamp = datetime.timestamp(now)
+        #Crear diccionario asociando lista de valores de RSSI para una mac 
 
         datos = {
             "MAC": m,
             "date": timestamp,
-            "Username": username,
-            "apName": apname,
-            "SSID": ssi,
-            "RSSI": rssi,
-            # "rssi_ap": listNR,
-            "nearNameAP": near_name[0],
-            "nearRSSIAP": valor_rssi[0]
+            #"Username": username,
+            #"apName": apname,
+            #"apIp": ip,
+            "RSSIs": rssis_pormac,
         }
-
         print(datos)
+        #POR CADA MAC DE DISPOSITIVO CLIENTE TENDRE UN REGISTRO DE RSSI POR CADA Ap
 
-        doc_ref = db.collection('data_network').document(m)
+        #CONTINUAR MODIFICANDO DE AQUI 
+        doc_ref = db.collection('COLECCION...').document(m)
         doc = doc_ref.get()
-        #Se guarda en la coleccion data_network la mac que esta siendo recorrida luego se trae la referencia de esto almacenado en la base de datos
-        #a la variable doc
+        #Se realiza la accion document en la coleccion 'COLECCION...' la mac que esta siendo recorrida luego se trae la referencia de esto a la variable doc
         datosN = {
             "last_update": timestamp,
             "data": [datos]
@@ -187,6 +139,7 @@ try:
             doc_ref.set(datosN)
 
         #Se manda a almacenar en la base de datos de firestore los diccionarios newDatosN o datosN dependiendo de si existe el doc de la coleccion
+
 
         # Modelo Matemático de canal PATH LOSS
         # RSSI=-10nlog(d/d0)+RSSI0 - 15
