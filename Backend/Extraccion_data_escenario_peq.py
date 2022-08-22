@@ -9,9 +9,8 @@ import math
 from sympy import var, solve
 from datetime import datetime
 
-# Use a service account
 cred = credentials.Certificate('key.json')
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred)           
 db = firestore.client()
 #Se hace uso de las librerias firebase_admin que en conjunto con la data que esta en key.json
 #permite conectarse a las distintas funciones (firebase functions) que nos provee firebase
@@ -27,26 +26,23 @@ def delete_collection(coll_ref, batch_size):
 
     if deleted >= batch_size:
         return delete_collection(coll_ref, batch_size)
-
 #Borra colecciones
 
-#mainAp_credentials pasaria a ser el router principal del daisy chain
-
-
-mainAp_credentials = {
+Ap_credentials = {
     'ip': "192.168.1.1",
     'device_type': "autodetect",
     'username': "root",
     'password': "admin"}
-# Formato de las credenciales necesarias para la conexion con el wireless lan controller 
+# Formato de las credenciales necesarias para la conexion con el Ap de la casa
 
 try:
-    connection1 = nk.ConnectHandler(**mainAp_credentials)
+    connection1 = nk.ConnectHandler(**Ap_credentials)
     Ap_data = connection1.send_command("iwinfo wl0 info")
     Ap_data_splitline = Ap_data.splitlines()[1:2:1]
     Ap_data_list=Ap_data_splitline[0].split()
     Ap_macaddress=Ap_data_list[-1]
-    #Se obtiene la MAC Address el router de la victima
+    #Se obtiene la MAC Address del router de la victima
+
     clientes_Conectados=[]
     Ap_data = connection1.send_command("iwinfo wl0 assoc")
     Ap_data_splitline = Ap_data.splitlines()
@@ -54,45 +50,29 @@ try:
         clientes_Conectados.append(clientes.split()[0])
     #Se obtiene las MAC Address de los clientes conectados al router
 
-        now = datetime.now()
-        timestamp = datetime.timestamp(now)
+
+    doc_ref1 = db.collection('mac_attackers').document(Ap_macaddress)
+    doc = doc_ref1.get()
+    doc_coleccion=doc.to_dict().copy()#check if remove copy
+    n=1
+    for conectado in clientes_Conectados:
+        for clave in doc_coleccion :
+            atacante=doc_coleccion.get(clave)
+            if conectado==atacante:
+                nombreDocumento = "Alerta" + n
+                now = datetime.now()
+                timestamp = datetime.timestamp(now)
+                datos = {
+                    "MAC Agresor": atacante,
+                    "MAC Victima":conectado,
+                    "Fecha": timestamp
+                }
+                print(datos)
+                doc_ref2 = db.collection('alerts').document(nombreDocumento).set(datos)
+                n=n+1
+                #Almacena en la base de datos en la conexion con el trigger
 
 
-        #Crear diccionario asociando lista de valores de RSSI para una mac 
-
-        datos = {
-            "MAC": m,
-            "date": timestamp,
-            #"Username": username,
-            #"apName": apname,
-            #"apIp": ip,
-            "RSSIs": rssis_pormac,
-        }
-        print(datos)
-        #POR CADA MAC DE DISPOSITIVO CLIENTE TENDRE UN REGISTRO DE RSSI POR CADA Ap
-
-        #CONTINUAR MODIFICANDO DE AQUI 
-        doc_ref = db.collection('data_devices').document(Ap_macaddress)
-        doc = doc_ref.get()
-        #Se realiza la accion document en la coleccion 'COLECCION...' la mac que esta siendo recorrida luego se trae la referencia de esto a la variable doc
-        datosN = {
-            "last_update": timestamp,
-            "data": [datos]
-        }
-        #Se crea el diccionario datosN con la data obtenida de la mac siendo recorrida y la ultima fecha de actualizaciin last_update
-
-        if doc.exists:
-            newDatosN = doc.to_dict().copy()
-            # print(datetime.fromtimestamp(newDatosN['last_update']))
-            newDatosN['last_update'] = timestamp
-            newDatosN["data"].append(datos)
-            # print(newDatosN)
-            doc_ref.set(newDatosN)
-        else:
-            # print(datosN)
-            doc_ref.set(datosN)
-
-        #Se manda a almacenar en la base de datos de firestore los diccionarios newDatosN o datosN dependiendo de si existe el doc de la coleccion
 
 
         # Modelo Matemático de canal PATH LOSS
@@ -153,7 +133,7 @@ except Exception as e:
     print(e)
 now = datetime.now()
 timestamp = datetime.timestamp(now)
-
+ 
 # Distancia euclidiana entre puntos (distancia entre cada usuario)
 historyarr=[]
 dis_obj =[]
