@@ -1,9 +1,11 @@
+from turtle import title
 import netmiko as nk
 from netmiko import ConnectHandler, NetmikoTimeoutException
 import time
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from firebase_admin import messaging
 from numpy.lib.type_check import real
 import math
 from sympy import var, solve
@@ -29,7 +31,7 @@ def delete_collection(coll_ref, batch_size):
 #Borra colecciones
 
 Ap_credentials = {
-    'ip': "192.168.1.1",
+    'ip': "192.168.1.1", #CHEQUEAR ESTO 
     'device_type': "autodetect",
     'username': "root",
     'password': "admin"}
@@ -51,28 +53,64 @@ try:
     #Se obtiene las MAC Address de los clientes conectados al router
 
 
+    # doc_ref1 = db.collection('mac_attackers').document(Ap_macaddress)
+    # doc = doc_ref1.get()
+    # doc_coleccion=doc.to_dict().copy()#check if remove copy
+    # n=1
+    # for conectado in clientes_Conectados:
+    #     for clave in doc_coleccion :
+    #         atacante=doc_coleccion.get(clave)
+    #         if conectado==atacante:
+    #             nombreDocumento = "Alerta" + n
+    #             now = datetime.now()
+    #             timestamp = datetime.timestamp(now)
+    #             datos = {
+    #                 "MAC Agresor": atacante,
+    #                 "MAC Victima":conectado,
+    #                 "Fecha": timestamp
+    #             }
+    #             print(datos)
+    #             doc_ref2 = db.collection('alerts').document(nombreDocumento).set(datos)
+    #             n=n+1
+    #             #Almacena en la base de datos en la conexion con el trigger
+
     doc_ref1 = db.collection('mac_attackers').document(Ap_macaddress)
     doc = doc_ref1.get()
-    doc_coleccion=doc.to_dict().copy()#check if remove copy
+    doc_coleccion=doc.to_dict()
     n=1
     for conectado in clientes_Conectados:
-        for clave in doc_coleccion :
-            atacante=doc_coleccion.get(clave)
+        lista_atacantes=doc.coleccion.get("attackers")
+        for atacante in lista_atacantes :
             if conectado==atacante:
-                nombreDocumento = "Alerta" + n
+                nombreDocumento = "Alerta " + n
                 now = datetime.now()
                 timestamp = datetime.timestamp(now)
                 datos = {
-                    "MAC Agresor": atacante,
-                    "MAC Victima":conectado,
-                    "Fecha": timestamp
+                    "mac_agresor": atacante,
+                    "mac_victima":conectado,
+                    "fecha": timestamp
                 }
                 print(datos)
                 doc_ref2 = db.collection('alerts').document(nombreDocumento).set(datos)
                 n=n+1
-                #Almacena en la base de datos en la conexion con el trigger
+                #Almacena en la base de datos de alertas 
 
+                registration_token = doc_coleccion.get("token")
+                
+                message = messaging.Message(
+                    notification = messaging.Notification(
+                        title='ALERTA'
+                        body='PRUEBAs'
+                    )
+                    data={
+                        'time': timestamp,
+                    },
+                    token=registration_token,
+                )
+                response = messaging.send(message)
+                print('Successfully sent message:', response)
 
+                
 
 
         # Modelo Matemático de canal PATH LOSS
