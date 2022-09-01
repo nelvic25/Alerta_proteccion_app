@@ -1,0 +1,4 @@
+#Wed Jul 06 14:05:00 COT 2022
+base.0=C\:\\Users\\prisc\\Documents\\flutter-projects\\login_firebase\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
