@@ -21,6 +21,7 @@ db = firestore.client()
 def delete_collection(coll_ref, batch_size):
     docs = coll_ref.limit(batch_size).stream()
     deleted = 0
+
     for doc in docs:
         #print(f'Deleting doc {doc.id} => {doc.to_dict()}')
         doc.reference.delete()
@@ -39,69 +40,66 @@ Ap_credentials = {
 
 try:
     connection1 = nk.ConnectHandler(**Ap_credentials)
-    while(True):
+    Ap_data = connection1.send_command("iwinfo wl0 info")
+    Ap_data_splitline = Ap_data.splitlines()[1:2:1]
+    Ap_data_splitline2 = Ap_data.splitlines()[:1:1] #PARA SACAR EL NOMBRE DEL ACCESS POINT
+    Ap_data_list=Ap_data_splitline[0].split()
+    Ap_data_list2=Ap_data_splitline2[0].split()
+    Ap_macaddress=Ap_data_list[-1]
 
-        Ap_data = connection1.send_command("iwinfo wl0 info")
-        Ap_data_splitline = Ap_data.splitlines()[1:2:1]
-        Ap_data_splitline2 = Ap_data.splitlines()[:1:1] #PARA SACAR EL NOMBRE DEL ACCESS POINT
-        Ap_data_list=Ap_data_splitline[0].split()
-        Ap_data_list2=Ap_data_splitline2[0].split()
-        Ap_macaddress=Ap_data_list[-1]
-        AP_name=Ap_data_list2[-1]
-        #Se obtiene la MAC Address del router de la victima y el Nombre del access point
+    AP_name=Ap_data_list2[-1]
+    #Se obtiene la MAC Address del router de la victima
 
-        clientes_Conectados=[]
-        Ap_data = connection1.send_command("iwinfo wl0 assoc")
-        Ap_data_splitline = Ap_data.splitlines()
-        for clientes in Ap_data_splitline:
-            clientes_Conectados.append(clientes.split()[0])
-        #Se obtiene las MAC Address de los clientes conectados al router
-        print("Se esta monitoreando el router con MAC Address: "+Ap_macaddress)
-        if(clientes_Conectados[0]=='No'):
-            print("No hay dispositivos conectados en la red "+ AP_name)
-        else:
-            print("Los siguientes dispositivos se encuentran conectados en la red: "+ AP_name)
-            print(clientes_Conectados)
+    clientes_Conectados=[]
 
-        doc_ref1 = db.collection('mac_attackers').document(Ap_macaddress)
-        doc = doc_ref1.get()
-        doc_coleccion=doc.to_dict()
-        
-        for conectado in clientes_Conectados:
-            lista_atacantes=doc_coleccion.get("attackers")
-            for atacante in lista_atacantes :
-                if conectado==atacante:
-                    print("hay un atacante conectado")
-                    now = datetime.now()
-                    datos = {
-                        "mac_agresor": atacante,
-                        "mac_victima":Ap_macaddress,
-                        "fecha": now 
-                    }
-                    print(datos)
-                    doc_ref2 = db.collection('alerts').document().set(datos)
-                    #Almacena en la base de datos de alertas 
+    Ap_data = connection1.send_command("iwinfo wl0 assoc")
+    Ap_data_splitline = Ap_data.splitlines()
+    for clientes in Ap_data_splitline:
+        clientes_Conectados.append(clientes.split()[0])
+    #Se obtiene las MAC Address de los clientes conectados al router
+    print(clientes_Conectados)
 
-                    registration_token = doc_coleccion.get("token")
-                    
-                    message = messaging.Message(
-                        notification = messaging.Notification(
-                            title='ALERTA!!! ',
-                            body='El atacante '+atacante+ ' ha ingresado al perimetro.'
-                        ),
-                        data={
-                            'time': 'DATA '
-                        },
-                        token=registration_token
+    doc_ref1 = db.collection('mac_attackers').document(Ap_macaddress)
+    doc = doc_ref1.get()
+    doc_coleccion=doc.to_dict()
+    n=1
+    for conectado in clientes_Conectados:
+        lista_atacantes=doc.coleccion.get("attackers")
+        for atacante in lista_atacantes :
+            if conectado==atacante:
+                nombreDocumento = "Alerta " + n
+                now = datetime.now()
+                timestamp = datetime.timestamp(now)
+                datos = {
+                    "mac_agresor": atacante,
+                    "mac_victima":conectado,
+                    "fecha": timestamp
+                }
+                print(datos)
+                #doc_ref2 = db.collection('alerts').document(nombreDocumento).set(datos,merge=True)
+                n=n+1
+                #Almacena en la base de datos de alertas 
+
+                registration_token = doc_coleccion.get("token")
+                
+                message = messaging.Message(
+                    notification = messaging.Notification(
+                        title='ALERTA',
+                        body='PRUEBAs'
                     )
-                    response = messaging.send(message)
-                    print('Successfully sent message:', response)
-        clientes_Conectados=[]
-        time.sleep(15)
+                    data={
+                        'time': timestamp,
+                    },
+                    token=registration_token
+                )
+                response = messaging.send(message)
+                print('Successfully sent message:', response)  
 except Exception as e:
     print(e)
-
-
+    now = datetime.now()
+    timestamp = datetime.timestamp(now)
+       
+                
 """ 
         # Modelo Matemático de canal PATH LOSS
         # RSSI=-10nlog(d/d0)+RSSI0 - 15
