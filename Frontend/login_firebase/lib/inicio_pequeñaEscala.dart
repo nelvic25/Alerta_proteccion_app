@@ -7,6 +7,7 @@ import 'package:login_firebase/getMacA.dart';
 import 'package:login_firebase/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login_firebase/funciones_firestore_Write.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:login_firebase/token.dart';
 import 'package:get_mac/get_mac.dart';
 import 'package:macadress_gen/macadress_gen.dart';
@@ -96,16 +97,38 @@ class Home extends StatelessWidget  {
                 ),
               ),
               onPressed:() {
-                print("Alerta enviada");
-
+                //FUNCIÓN QUE LLAMA DIRECTAMENTE A LA POLICIA(911)
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => AlertDialog(
+                    title: Text(" LLAMANDO A EMERGENCIAS (911)"),
+                    content: Text("Está seguro?"),
+                    actions:<Widget> [
+                      FlatButton(
+                        child: Text("SÍ"),
+                        onPressed:() async {
+                          FlutterPhoneDirectCaller.callNumber("911");
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("CANCELAR"),
+                        onPressed:() {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                );
               },
               padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              color: Colors.red,
+              color: Colors.amber,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)
                   ),
             ),
           ),
+
           Container(
             child: FlatButton(
               child: Text(

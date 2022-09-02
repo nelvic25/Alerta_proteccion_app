@@ -47,6 +47,7 @@ dependencies:
   #mac_address: ^1.0.0
   get_mac: ^0.0.1
   macadress_gen: ^0.0.4
+  flutter_phone_direct_caller: ^2.1.1
 
 dev_dependencies:
   flutter_test:
