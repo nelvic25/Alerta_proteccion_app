@@ -194,18 +194,18 @@ class getName extends StatelessWidget {
       // );
 
 
-      final title = 'Usuarios Cercanos';
+      final title = 'Registro de Alertas';
 
 
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink[900],
-          title: Text("Usuarios Cercanos"),
+          title: Text("Registro de Alertas"),
         ),
 
         body: StreamBuilder(
 
-          stream: FirebaseFirestore.instance.collection('alerts').snapshots(),
+          stream: FirebaseFirestore.instance.collection('alerts').where('mac_agresor', isEqualTo: "60:AB:67:CC:4D:CD").snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -300,7 +300,7 @@ class getNameAttacker extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[900],
-        title: Text("Usuarios Cercanos"),
+        title: Text("Agresores Registrados"),
       ),
 
       body: StreamBuilder(
