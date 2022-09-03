@@ -48,7 +48,7 @@ class getData extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                 child: Text(
-                  'REGISTRO DEL USUARIO',
+                  'HISTORIAL DE REGISTROS',
                   textAlign: TextAlign.center,
                   style: TextStyle (
                     fontSize: 40,
@@ -200,7 +200,9 @@ class getName extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink[900],
-          title: Text("Registro de Alertas"),
+
+          title: Text("Historial de Alertas"),
+
         ),
 
         body: StreamBuilder(
@@ -300,7 +302,7 @@ class getNameAttacker extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[900],
-        title: Text("Agresores Registrados"),
+        title: Text("MACS Registradas como atacantes"),
       ),
 
       body: StreamBuilder(
