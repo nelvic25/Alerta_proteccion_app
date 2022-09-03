@@ -21,7 +21,7 @@ import 'package:flutter/services.dart';
 
 class ShowToken{
     static FirebaseMessaging messaging = FirebaseMessaging.instance;
-    static String? token;
+    static var token;
     CollectionReference users = FirebaseFirestore.instance.collection('mac_attackers');
 
     static Future initializeApp() async{
@@ -32,7 +32,7 @@ class ShowToken{
 
     }
 
-    static Future<String?> write_token() async{
+    static Future<String> write_token() async{
 
         Firebase.initializeApp();
         token = await FirebaseMessaging.instance.getToken();
@@ -41,10 +41,23 @@ class ShowToken{
             token;
     }
 
-    static Future<String?> convertToken(Future<String?> t) async{
-        String? _token = "";
-       _token= await t;
-       return _token;
+    static String write_token2() {
+        Future<String?> convertToken() async{
+        String? token2 ;
+        Firebase.initializeApp();
+        token2 = await FirebaseMessaging.instance.getToken();
+        token= await token2;
+        print("Token para almacenar: ${token}");
+        return
+            token;
+    }
+        return
+            token;
+    }
+
+    static Future<String> convertToken(Future<String> t, String s) async{
+       s= await t;
+       return s;
     }
 
     static Future<String?> getMAC() async{

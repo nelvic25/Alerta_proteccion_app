@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:login_firebase/inicio_pequeñaEscala.dart';
 import 'package:login_firebase/auxiliar.dart';
+import 'package:login_firebase/main.dart';
 
 
 
@@ -304,7 +305,7 @@ class PaginaRegistroState extends State<PaginaRegistro> {
       mostrarSnackBar("Usuario creado correctamente",context);
       Navigator.pop(context);
       Navigator.push(context,
-        MaterialPageRoute(builder: (context) => new Home()));
+        MaterialPageRoute(builder: (context) => new Login()));
 
     } on FirebaseAuthException catch(e) {
       if (e.code == "weak-password")
