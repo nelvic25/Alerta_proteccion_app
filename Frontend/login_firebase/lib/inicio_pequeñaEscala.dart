@@ -159,7 +159,7 @@ class Home extends StatelessWidget  {
             //  child:GestureDetector(
             child: FlatButton(
               child: Text(
-                "VER HISTORIAL",
+                "REGISTROS",
                 style: TextStyle(
                     fontSize: 18, color: Colors.white
                 ),

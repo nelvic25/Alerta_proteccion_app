@@ -186,18 +186,24 @@ class getName extends StatelessWidget {
       // );
 
 
-      final title = 'Usuarios Cercanos';
+      final title = 'Registro de Alertas';
 
 
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink[900],
+
           title: Text("Historial de Alertas"),
+
         ),
 
         body: StreamBuilder(
+<<<<<<< HEAD
 
           stream: FirebaseFirestore.instance.collection('alerts').where("token", isEqualTo: "${_token}").snapshots(),
+=======
+          stream: FirebaseFirestore.instance.collection('alerts').where("token", isEqualTo: _token).snapshots(),
+>>>>>>> 32900ca30e0e442e03270c339ba527939cb26579
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
               return Center(

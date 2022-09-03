@@ -72,17 +72,20 @@ try:
             for atacante in lista_atacantes :
                 if conectado==atacante:
                     print("hay un atacante conectado")
+                    registration_token = doc_coleccion.get("token")
+
                     now = datetime.now()
                     datos = {
                         "mac_agresor": atacante,
                         "mac_victima":Ap_macaddress,
-                        "fecha": now 
+                        "fecha": now,
+                        "token": registration_token
                     }
                     print(datos)
                     doc_ref2 = db.collection('alerts').document().set(datos)
                     #Almacena en la base de datos de alertas 
 
-                    registration_token = doc_coleccion.get("token")
+                    
                     
                     message = messaging.Message(
                         notification = messaging.Notification(
@@ -90,7 +93,7 @@ try:
                             body='El atacante '+atacante+ ' ha ingresado al perimetro.'
                         ),
                         data={
-                            'time': 'DATA '
+                            'time': 'DATA'
                         },
                         token=registration_token
                     )

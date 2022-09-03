@@ -231,9 +231,9 @@ class _LoginState extends State<Login> {
               Padding(
                 padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                 child: Text(
-                  'Safety for Woman',
+                  'Hera',
                   style: TextStyle (
-                    fontSize: 40,
+                    fontSize: 70,
                     color: Colors.white70,
                     fontWeight: FontWeight.bold,
                   ),
@@ -248,7 +248,7 @@ class _LoginState extends State<Login> {
                       height: 150,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0)),
-                      child: Image.asset('assets/first.jpg')),
+                      child: Image.asset('assets/female_logo.png')),
                 ),
               ),
               Padding(
