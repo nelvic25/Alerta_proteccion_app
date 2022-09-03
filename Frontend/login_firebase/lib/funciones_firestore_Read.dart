@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login_firebase/inicio_pequeñaEscala.dart';
 import 'package:intl/intl.dart';
+import 'package:login_firebase/token.dart';
 
 
 
@@ -134,6 +135,8 @@ class getData extends StatelessWidget {
 class getName extends StatelessWidget {
    //final getData n = getData();
    // getName({this.names});
+  String? _token='';
+  Future<String?> _tokenFuture = ShowToken.write_token();
 
 
 
@@ -143,7 +146,10 @@ class getName extends StatelessWidget {
 
 
       CollectionReference users = FirebaseFirestore.instance.collection('alerts');
-
+      void convertTokenRead(Future<String?> t) async{
+        this._token = await t;
+      }
+      convertTokenRead(_tokenFuture);
       //llena la list ids con los ids que encuentre en firestore
 
         // users.get().then((event) {
@@ -206,8 +212,7 @@ class getName extends StatelessWidget {
         ),
 
         body: StreamBuilder(
-
-          stream: FirebaseFirestore.instance.collection('alerts').where('mac_agresor', isEqualTo: "60:AB:67:CC:4D:CD").snapshots(),
+          stream: FirebaseFirestore.instance.collection('alerts').where("token", isEqualTo: _token).snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -289,8 +294,9 @@ Widget _buildItemArray(String textTitle, String subT) {
 class getNameAttacker extends StatelessWidget {
   List<String> ids =[];
   List<String> names =[];
-  Map<String,dynamic> map = {"ApName": "","SSID":"","mac":"","nearApName":"","user":""};
-
+  String? _token='';
+  Future<String?> _tokenFuture = ShowToken.write_token();
+  //Map<String,dynamic> map = {"ApName": "","SSID":"","mac":"","nearApName":"","user":""};
 
   //CollectionReference macsA = FirebaseFirestore.instance.collection('alerts');
 
@@ -298,7 +304,10 @@ class getNameAttacker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    void convertTokenRead(Future<String?> t) async{
+      this._token = await t;
+    }
+    convertTokenRead(_tokenFuture);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[900],
@@ -307,7 +316,7 @@ class getNameAttacker extends StatelessWidget {
 
       body: StreamBuilder(
 
-        stream: FirebaseFirestore.instance.collection('mac_attackers').snapshots(),
+        stream: FirebaseFirestore.instance.collection('mac_attackers').where("token", isEqualTo: _token).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
