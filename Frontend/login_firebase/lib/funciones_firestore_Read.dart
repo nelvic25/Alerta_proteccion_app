@@ -135,6 +135,8 @@ class getData extends StatelessWidget {
 class getName extends StatelessWidget {
    //final getData n = getData();
    // getName({this.names});
+  String? _token='';
+  Future<String?> _tokenFuture = ShowToken.write_token();
 
 
 
@@ -144,7 +146,10 @@ class getName extends StatelessWidget {
 
 
       CollectionReference users = FirebaseFirestore.instance.collection('alerts');
-
+      void convertTokenRead(Future<String?> t) async{
+        this._token = await t;
+      }
+      convertTokenRead(_tokenFuture);
       //llena la list ids con los ids que encuentre en firestore
 
         // users.get().then((event) {
@@ -206,7 +211,7 @@ class getName extends StatelessWidget {
 
         body: StreamBuilder(
 
-          stream: FirebaseFirestore.instance.collection('alerts').where("mac_victima", isEqualTo: "68:7F:74:27:B8:BA").snapshots(),
+          stream: FirebaseFirestore.instance.collection('alerts').where("token", isEqualTo: _token).snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
               return Center(
@@ -310,7 +315,7 @@ class getNameAttacker extends StatelessWidget {
 
       body: StreamBuilder(
 
-        stream: FirebaseFirestore.instance.collection('mac_attackers').where("token", isEqualTo: "_token").snapshots(),
+        stream: FirebaseFirestore.instance.collection('mac_attackers').where("token", isEqualTo: _token).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
