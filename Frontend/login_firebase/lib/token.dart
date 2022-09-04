@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get_mac/get_mac.dart';
+//import 'package:get_mac/get_mac.dart';
 import 'package:flutter/services.dart';
+//import 'package:mac_address/mac_address.dart';
+
 
 
 // class getToken{
@@ -22,6 +24,8 @@ import 'package:flutter/services.dart';
 class ShowToken{
     static FirebaseMessaging messaging = FirebaseMessaging.instance;
     static var token;
+    static var MAC;
+    static var mac2;
     CollectionReference users = FirebaseFirestore.instance.collection('mac_attackers');
 
     static Future initializeApp() async{
@@ -60,18 +64,26 @@ class ShowToken{
        return s;
     }
 
-    static Future<String?> getMAC() async{
+    // static String write_getMAC() {
+    //      Future<String?> getMAC() async {
+    //         String? mac;
+    //         // Platform messages may fail, so we use a try/catch PlatformException.
+    //         try {
+    //             mac = await GetMac.macAddress;
+    //             MAC= await mac;
+    //             print("Esta es la mac: ${MAC}");
+    //         } on PlatformException {
+    //             mac = 'Failed to get Device MAC Address.';
+    //         }
+    //         return MAC;
+    //     }
+    //      return MAC;
+    // }
 
-        String mac;
-        // Platform messages may fail, so we use a try/catch PlatformException.
-        try {
-            mac = await GetMac.macAddress;
-            print("Esta es la mac: ${mac} 30-65-EC-6F-C4-58");
-        } on PlatformException {
-            mac = 'Failed to get Device MAC Address.';
-        }
-        return mac;
-    }
+
+
+
+
 
 
 }

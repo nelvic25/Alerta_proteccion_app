@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 //import 'package:mac_address/mac_address.dart';
-import 'package:get_mac/get_mac.dart';
+//import 'package:get_mac/get_mac.dart';
 import 'package:macadress_gen/macadress_gen.dart';
 
 // class getMac extends StatefulWidget {
