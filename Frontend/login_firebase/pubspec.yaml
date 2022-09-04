@@ -44,8 +44,8 @@ dependencies:
   cloud_firestore: ^3.3.0
   firebase_messaging: ^12.0.1
   overlay_support: ^2.0.1
-  #mac_address: ^1.0.0
-  get_mac: ^0.0.1
+  mac_address: ^1.0.0
+  #get_mac: ^0.0.1
   macadress_gen: ^0.0.4
   flutter_phone_direct_caller: ^2.1.1
 
