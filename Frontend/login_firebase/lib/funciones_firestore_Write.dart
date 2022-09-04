@@ -159,7 +159,7 @@ class newAttacker extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                   child: Text(
-                    'Usuario Registrado',
+                    'Atacantes Registrados',
                     style: TextStyle (
                       fontSize: 40,
                       color: Colors.indigo[600],
