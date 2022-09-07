@@ -12,6 +12,7 @@ import 'package:login_firebase/token.dart';
 //import 'package:get_mac/get_mac.dart';
 import 'package:macadress_gen/macadress_gen.dart';
 import 'dart:async';
+import 'package:login_firebase/tipo_Escenario.dart';
 
 
 
@@ -139,7 +140,7 @@ class Home extends StatelessWidget  {
               ),
               onPressed:() {
                 Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => AddUser()
+                   MaterialPageRoute(builder: (context) => tipo_Escenario2()
                     ));
                 ShowToken.write_token();
                // getmac();

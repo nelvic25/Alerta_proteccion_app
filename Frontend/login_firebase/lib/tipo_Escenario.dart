@@ -8,21 +8,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:login_firebase/funciones_firestore_Write.dart';
 import 'package:login_firebase/token.dart';
 import 'package:mac_address/mac_address.dart';
+import 'package:login_firebase/inicio_pequeñaEscala.dart';
 
 
-class tipo_Escenario extends StatefulWidget {
+class tipo_Escenario2 extends StatefulWidget {
   @override
   tipo_EscenarioState createState() => tipo_EscenarioState();
 }
 
-class tipo_EscenarioState extends State<tipo_Escenario> {
+class tipo_EscenarioState extends State<tipo_Escenario2> {
 
   String? _token='';
   String? _mac='';
   Future<String?> _tokenFuture = ShowToken.write_token();
   //Future<String?> MAC=ShowToken.write_MAC2();
 
-  tipo_Escenario createState() => tipo_Escenario();
+  tipo_Escenario2 createState() => tipo_Escenario2();
 
   @override
   Widget build(BuildContext context) {
@@ -74,23 +75,24 @@ class tipo_EscenarioState extends State<tipo_Escenario> {
         ),
 
 
-        child: ListView(
-          children: [
-
+        child: Center(
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:<Widget> [
 
             Container(
               child: FlatButton(
                 child: Text(
-                  "Escenario: PEQUEÑA ESCALA",
+                  "Añadir AGRESOR",
                   style: TextStyle(
                       fontSize: 18, color: Colors.white
                   ),
                 ),
                 onPressed:() {
-                  addDevice();
+                //  addDevice();
                  // write_MAC2();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainPage()
+                      MaterialPageRoute(builder: (context) => AddUser()
                       ));
                   //cuando elija este escenario se almacena en data_devices
                   //nombre de doc: mac del device y atributo token del device
@@ -111,14 +113,14 @@ class tipo_EscenarioState extends State<tipo_Escenario> {
               //  child:GestureDetector(
               child: FlatButton(
                 child: Text(
-                  "Escenario: GRAN ESCALA",
+                  "Eliminar un AGRESOR",
                   style: TextStyle(
                       fontSize: 18, color: Colors.white
                   ),
                 ),
                 onPressed:() {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>  MainPage()
+                      MaterialPageRoute(builder: (context) =>  DeleteUser()
                       ));
                 },
                 padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
@@ -128,10 +130,37 @@ class tipo_EscenarioState extends State<tipo_Escenario> {
                 ),
               ),
             ),
+            //VOLVER AL MENU
+            Container(
+              padding: EdgeInsets.all(25),
+              alignment:Alignment.center,
+              child:
+              RaisedButton(
+                  padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
+                  color: Colors.pink[900],
+                  child: Text(
+                    "Volver",
+                    style: TextStyle(
+                        fontSize: 18,color: Colors.white,
+                        fontFamily: "rbold"
+                    ),
+                  ),
+                  onPressed:() {
+
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => Home()));
+                  }
+
+              ),
+
+            ),
+
 
 
           ],
         ),
+      ),
       ),
 
     );

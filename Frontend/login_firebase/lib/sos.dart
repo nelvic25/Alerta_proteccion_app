@@ -15,6 +15,7 @@ class SOS extends StatelessWidget{
 }
 
 class SOSScreen extends StatelessWidget{
+  String number="911";
   @override
   Widget build(BuildContext context){
     return Scaffold(
@@ -32,7 +33,7 @@ class SOSScreen extends StatelessWidget{
                     FlatButton(
                         child: Text("SÍ"),
                         onPressed:() async {
-                          FlutterPhoneDirectCaller.callNumber("911");
+                          FlutterPhoneDirectCaller.callNumber(number);
                         },
                     ),
                     FlatButton(
