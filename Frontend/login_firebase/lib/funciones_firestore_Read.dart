@@ -38,7 +38,7 @@ class getData extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                 child: Text(
-                  'HISTORIAL DE REGISTROS',
+                  'Historial de Registros',
                   textAlign: TextAlign.center,
                   style: TextStyle (
                     fontSize: 40,
@@ -60,7 +60,7 @@ class getData extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)
                   ),
                     child: Text(
-                      "USUARIOS REGISTRADOS COMO AGRESORES",
+                      "Usuarios Registrados como Agresores",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,color: Colors.white,
@@ -87,7 +87,7 @@ class getData extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)
                   ),
                     child: Text(
-                      "REGISTRO DE ALERTAS",
+                      "Registro de Alertas",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,color: Colors.white,
@@ -288,12 +288,12 @@ Widget _buildItemArray(String textTitle, String subT) {
   print(Lmacs);
 
   return new ListTile(
-    title: new Text("MAC Address de Agresor(es) registrado(s):\n ${Lmacs[n-2]}\n ${ Lmacs[n-1]}\n"),
-    subtitle: new Text(subT,
+    title: new Text("MAC de Agresor(es) Registrado(s):\n \n - ${Lmacs[n-2]}\n \n - ${ Lmacs[n-1]}\n"),
+    //subtitle: new Text(subT,
    //  style: TextStyle(
    //    fontSize: 12,color: Colors.black
    // ),
-  ),
+//  ),
     leading: new Icon(Icons.accessibility),
     onTap: (){
       //Se puede poner la opcion que lo muestre en el mapa

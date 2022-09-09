@@ -97,9 +97,11 @@ class AddUser extends StatelessWidget {
       /////children
       //agregar funcion que permita ir ingresando mac de atackers segun lo vaya
       //pidiendo el usuario
-      body:ListView(
-
-          children: [
+      body:Container(
+      child: Center(
+      child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:<Widget> [
 
       Container(
       padding: EdgeInsets.all(15),
@@ -116,7 +118,7 @@ class AddUser extends StatelessWidget {
           child: TextField(
           controller: macAttacker1,
           decoration: InputDecoration(
-          hintText: "Inserte MAC de Agresor 1"
+          hintText: "Inserte MAC del Agresor"
         ),
         ),
         ),
@@ -138,6 +140,9 @@ class AddUser extends StatelessWidget {
               RaisedButton(
                   padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
                   color: Colors.cyan[800],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
+                  ),
                   child: Text(
                     "Confirmar datos",
                     style: TextStyle(
@@ -161,8 +166,9 @@ class AddUser extends StatelessWidget {
 
   ],
     ),
+              ),
+    ),
     );
-
   }
 }
 
@@ -283,10 +289,11 @@ class DeleteUser extends StatelessWidget {
       /////children
       //agregar funcion que permita ir ingresando mac de atackers segun lo vaya
       //pidiendo el usuario
-      body:ListView(
-
-        children: [
-         // mainAxisAlignment: MainAxisAlignment.center,
+      body:Container(
+      child: Center(
+      child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:<Widget> [
 
           Container(
             padding: EdgeInsets.all(15),
@@ -325,6 +332,9 @@ class DeleteUser extends StatelessWidget {
             RaisedButton(
                 padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
                 color: Colors.cyan[800],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)
+                ),
                 child: Text(
                   "Confirmar datos",
                   style: TextStyle(
@@ -347,7 +357,9 @@ class DeleteUser extends StatelessWidget {
           ),
 
         ],
+        ),
       ),
+    ),
     );
 
   }
