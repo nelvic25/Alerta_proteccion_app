@@ -90,7 +90,7 @@ class AddUser extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar:AppBar(
         title: Text("REGISTRE LOS DATOS"),
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Colors.cyan[800],
       ),
 
 //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
@@ -137,7 +137,7 @@ class AddUser extends StatelessWidget {
               child:
               RaisedButton(
                   padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                  color: Colors.pink[900],
+                  color: Colors.cyan[800],
                   child: Text(
                     "Confirmar datos",
                     style: TextStyle(
@@ -190,39 +190,35 @@ class newAttacker extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                   child: Text(
-                    'Atacantes Registrados',
+                    'Usuario Registrado',
                     style: TextStyle (
-                      fontSize: 40,
-                      color: Colors.indigo[600],
+                      fontSize: 50,
+                      color: Colors.cyan[800],
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
 
-                Container(
-                  padding: EdgeInsets.all(25),
-                  alignment:Alignment.center,
-                  child:
-                  RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                    color: Colors.pink[900],
-                    child: Text(
-                      "Volver",
-                      style: TextStyle(
-                          fontSize: 18,color: Colors.white,
-                          fontFamily: "rbold"
-                      ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+
+                    const SizedBox(width: 30),
+
+                    FloatingActionButton.large(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => Home()));
+                      },
+                      child:
+
+                      const Icon(Icons.account_balance_sharp),
+                      backgroundColor: Colors.pink[900],
                     ),
-                    onPressed:() {
-
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => Home()));
-                    }
-
-                  ),
-
+                  ],
                 ),
+
 
 
               ],
@@ -279,8 +275,8 @@ class DeleteUser extends StatelessWidget {
 
       backgroundColor: Colors.white,
       appBar:AppBar(
-        title: Text("REGISTRE LA MAC DEL USUARIO QUE DESEA ELIMINAR"),
-        backgroundColor: Colors.pink[900],
+        title: Text("Registre la MAC a Eliminar"),
+        backgroundColor: Colors.cyan[800],
       ),
 
 //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
@@ -290,6 +286,7 @@ class DeleteUser extends StatelessWidget {
       body:ListView(
 
         children: [
+         // mainAxisAlignment: MainAxisAlignment.center,
 
           Container(
             padding: EdgeInsets.all(15),
@@ -327,7 +324,7 @@ class DeleteUser extends StatelessWidget {
             child:
             RaisedButton(
                 padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                color: Colors.pink[900],
+                color: Colors.cyan[800],
                 child: Text(
                   "Confirmar datos",
                   style: TextStyle(
@@ -385,37 +382,31 @@ class AttackerDelete extends StatelessWidget {
                 'MAC Eliminada',
                 style: TextStyle (
                   fontSize: 40,
-                  color: Colors.indigo[600],
+                  color: Colors.cyan[800],
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
 
-            Container(
-              padding: EdgeInsets.all(25),
-              alignment:Alignment.center,
-              child:
-              RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                  color: Colors.pink[900],
-                  child: Text(
-                    "Volver",
-                    style: TextStyle(
-                        fontSize: 18,color: Colors.white,
-                        fontFamily: "rbold"
-                    ),
-                  ),
-                  onPressed:() {
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
 
+                const SizedBox(width: 30),
+
+                FloatingActionButton.large(
+                  onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => Home()));
-                  }
+                  },
+                  child:
 
-              ),
-
+                  const Icon(Icons.account_balance_sharp),
+                  backgroundColor: Colors.pink[900],
+                ),
+              ],
             ),
-
 
           ],
         ),

@@ -81,13 +81,9 @@ class Home2 extends StatelessWidget {
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
-
-
                   ),
                   const SizedBox(width: 40),
-                  // An example of the extended floating action button.
-                  //
-                  // https://m3.material.io/components/extended-fab/specs#686cb8af-87c9-48e8-a3e1-db9da6f6c69b
+
                   FloatingActionButton.large(
                     onPressed: () {
                     },

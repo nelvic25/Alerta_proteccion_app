@@ -131,30 +131,30 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
               ),
             ),
             //VOLVER AL MENU
-            Container(
-              padding: EdgeInsets.all(25),
-              alignment:Alignment.center,
-              child:
-              RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
-                  color: Colors.black26,
-                  child: Text(
-                    "Volver",
-                    style: TextStyle(
-                        fontSize: 18,color: Colors.white,
-                        fontFamily: "rbold"
-                    ),
-                  ),
-                  onPressed:() {
-
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => Home()));
-                  }
-
-              ),
-
-            ),
+            // Container(
+            //   padding: EdgeInsets.all(25),
+            //   alignment:Alignment.center,
+            //   child:
+            //   RaisedButton(
+            //       padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
+            //       color: Colors.black26,
+            //       child: Text(
+            //         "Volver",
+            //         style: TextStyle(
+            //             fontSize: 18,color: Colors.white,
+            //             fontFamily: "rbold"
+            //         ),
+            //       ),
+            //       onPressed:() {
+            //
+            //         Navigator.push(context,
+            //             MaterialPageRoute(
+            //                 builder: (BuildContext context) => Home()));
+            //       }
+            //
+            //   ),
+            //
+            // ),
 
 
             Row(
