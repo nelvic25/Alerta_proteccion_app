@@ -42,7 +42,7 @@ class getData extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle (
                     fontSize: 40,
-                    color: Colors.indigo[600],
+                    color: Colors.pink[900],
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -54,8 +54,11 @@ class getData extends StatelessWidget {
                 alignment:Alignment.center,
                 child:
                 RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                    color: Colors.pink[900],
+                    padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
+                    color: Colors.cyan[800],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                  ),
                     child: Text(
                       "USUARIOS REGISTRADOS COMO AGRESORES",
                       textAlign: TextAlign.center,
@@ -78,8 +81,11 @@ class getData extends StatelessWidget {
                 alignment:Alignment.center,
                 child:
                 RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                    color: Colors.pink[900],
+                    padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
+                    color: Colors.cyan[800],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                  ),
                     child: Text(
                       "REGISTRO DE ALERTAS",
                       textAlign: TextAlign.center,
@@ -94,8 +100,29 @@ class getData extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (BuildContext context) => getName()));
 
-                    }
+                    },
+
                 ),
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                  const SizedBox(width: 30),
+
+                  FloatingActionButton.large(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Home()));
+                    },
+                    child:
+
+                    const Icon(Icons.account_balance_sharp),
+                    backgroundColor: Colors.pink[900],
+                  ),
+                ],
               ),
 
             ]
@@ -189,7 +216,7 @@ class getName extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink[900],
+          backgroundColor: Colors.cyan[800],
 
           title: Text("Historial de Alertas"),
 
@@ -294,8 +321,8 @@ class getNameAttacker extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[900],
-        title: Text("MACS Registradas como atacantes"),
+        backgroundColor: Colors.cyan[800],
+        title: Text("MACS de Atacantes"),
       ),
 
       body: StreamBuilder(

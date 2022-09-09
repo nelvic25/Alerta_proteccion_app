@@ -59,8 +59,11 @@ class Home extends StatelessWidget  {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Colors.cyan[800],
       ),
+
+
+
 
       body: Container(
           decoration: BoxDecoration(
@@ -72,70 +75,78 @@ class Home extends StatelessWidget  {
 
         child: Center(
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children:<Widget> [
           Padding(
-            padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
+            padding: const EdgeInsets.only(top: 50.0, bottom: 0.0),
             child: Text(
-              'PEQUEÑA-ESCALA',
+              'Indoor',
               style: TextStyle (
-                fontSize: 40,
-                color: Colors.pink[900],
-                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                color: Colors.pink[00],
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
 
-
-          Container(
-            padding: EdgeInsets.all(20),
-          //  child:GestureDetector(
-            child: FlatButton(
-              child: Text(
-                "BOTON DE PÁNICO",
-                style: TextStyle(
-                  fontSize: 18, color: Colors.white
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              const Text('Necesitas Ayuda? ->',
+                style: TextStyle (
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
                 ),
+
               ),
-              onPressed:() {
-                //FUNCIÓN QUE LLAMA DIRECTAMENTE A LA POLICIA(911)
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) => AlertDialog(
-                    title: Text(" LLAMANDO A EMERGENCIAS (911)"),
-                    content: Text("Está seguro?"),
-                    actions:<Widget> [
-                      FlatButton(
-                        child: Text("SÍ"),
-                        onPressed:() async {
-                          FlutterPhoneDirectCaller.callNumber("911");
-                        },
-                      ),
-                      FlatButton(
-                        child: Text("CANCELAR"),
-                        onPressed:() {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-              padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              color: Colors.amber,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
-                  ),
-            ),
+              const SizedBox(width: 40),
+              // An example of the extended floating action button.
+              //
+              // https://m3.material.io/components/extended-fab/specs#686cb8af-87c9-48e8-a3e1-db9da6f6c69b
+              FloatingActionButton.large(
+                onPressed: () {
+                  //FUNCIÓN QUE LLAMA DIRECTAMENTE A LA POLICIA(911)
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => AlertDialog(
+                      title: Text(" LLAMANDO A EMERGENCIAS (911)"),
+                      content: Text("Está seguro?"),
+                      actions:<Widget> [
+                        FlatButton(
+                          child: Text("SÍ"),
+                          onPressed:() async {
+                            FlutterPhoneDirectCaller.callNumber("911");
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("CANCELAR"),
+                          onPressed:() {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child:
+                 //const Text('Bontón de Panico'),
+                const Icon(Icons.add_alert),
+                backgroundColor: Colors.red,
+              ),
+            ],
           ),
 
+
+
+
           Container(
+            padding: EdgeInsets.all(30),
             child: FlatButton(
               child: Text(
                 "CREAR REGISTRO",
                 style: TextStyle(
-                    fontSize: 18, color: Colors.white
+                    fontSize: 20, color: Colors.white
                 ),
               ),
               onPressed:() {
@@ -146,17 +157,17 @@ class Home extends StatelessWidget  {
                // getmac();
                //mac();
               },
-              padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              color: Colors.pink[900],
+              padding:EdgeInsets.symmetric(vertical: 40, horizontal: 60),
+              color: Colors.cyan[800],
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
+                  borderRadius: BorderRadius.circular(30)
               ),
             ),
           ),
 
           //permite ver los usuarios que esten en la coleccion data_devices y macttakers
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(30),
             //  child:GestureDetector(
             child: FlatButton(
               child: Text(
@@ -171,17 +182,21 @@ class Home extends StatelessWidget  {
                 MaterialPageRoute(builder: (context) =>  getData()
                 ));
               },
-              padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-              color: Colors.pink[900],
+              padding:EdgeInsets.symmetric(vertical: 40, horizontal: 60),
+              color: Colors.cyan[800],
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
+                  borderRadius: BorderRadius.circular(30)
               ),
             ),
           ),
 
 
+
         ],
+
+
           ),
+
       ),
       ),
 

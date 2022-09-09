@@ -115,64 +115,50 @@ class tipo_EscenarioState extends State<tipo_Escenario> {
           mainAxisAlignment: MainAxisAlignment.center,
           children:<Widget> [
             Padding(
-            padding: const EdgeInsets.only(top: 80.0, bottom: 0.0),
+            padding: const EdgeInsets.only(top: 40.0, bottom: 10.0),
             child: Text(
-              'BIENVENIDO',
+              'Donde se encuentra?',
               textAlign: TextAlign.center,
               style: TextStyle (
-                fontSize: 60,
-                color: Colors.black54,
-                fontWeight: FontWeight.bold,
+                fontSize: 40,
+                color: Colors.pink[900],
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
 
           //MENU DE ESCENARIOS
-            Container(
-              child: FlatButton(
-                child: Text(
-                  "Escenario: PEQUEÑA ESCALA",
-                  style: TextStyle(
-                      fontSize: 18, color: Colors.white
-                  ),
-                ),
-                onPressed:() {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Home()
-                      ));
-                },
-                padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                color: Colors.pink[900],
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
+
+            //Esc pequeña cobertura
+            InkWell(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) =>  Home()
+                    ));
+              }, // Image tapped
+              child: Image.asset(
+                'assets/home.png',
+                fit: BoxFit.cover, // Fixes border issues
+                width: 180.0,
+                height: 180.0,
               ),
             ),
 
-
-            Container(
-              padding: EdgeInsets.all(20),
-              //  child:GestureDetector(
-              child: FlatButton(
-                child: Text(
-                  "Escenario: GRAN ESCALA",
-                  style: TextStyle(
-                      fontSize: 18, color: Colors.white
-                  ),
-                ),
-                onPressed:() {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>  Home2()
-                      ));
-                },
-
-                padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                color: Colors.indigo[400],
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
+          //Esc gran cobertura
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) =>  Home2()
+                    ));
+              }, // Image tapped
+              child: Image.asset(
+                'assets/building.png',
+                fit: BoxFit.cover, // Fixes border issues
+                width: 180.0,
+                height: 180.0,
               ),
-            ),
+            )
+
 
           ],
         ),
