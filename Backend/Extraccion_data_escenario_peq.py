@@ -92,9 +92,9 @@ while(True):
             #    print("Los siguientes dispositivos se encuentran conectados en la red: "+ AP_name)
             #    print(clientes_Conectados)
 
-            doc_ref1 = db.collection('mac_attackers').document(Ap_macaddress)
-            doc = doc_ref1.get()
-            doc_coleccion=doc.to_dict()
+            doc_Ap_macaddress_ref = db.collection('mac_attackers').document(Ap_macaddress)
+            doc__Ap_macaddress_dataframe = doc_Ap_macaddress_ref.get()
+            doc_coleccion=doc__Ap_macaddress_dataframe.to_dict()
             for conectado in clientes_Conectados:
                 lista_atacantes=doc_coleccion.get("attackers")
                 for atacante in lista_atacantes :
@@ -108,7 +108,8 @@ while(True):
                             "fecha": now,
                             "token": registration_token
                         }
-                        doc_ref2 = db.collection('alerts').document().set(datos)
+                        #doc_ref2 = db.collection('alerts').document().set(datos)
+                        db.collection('alerts').document().set(datos)
                         #Almacena en la base de datos de alertas 
 
                         message = messaging.Message(
@@ -167,8 +168,7 @@ while(True):
         #rssiT3 = (rssi0-(valor_rssi[1])-15)/(10*n)
         #d2 = 10**(rssiT2)
 
-        # Trilateración Mínimos Cuadrados con solo dos Access Points
-        # (xi-x)^2 + (yi-y)^2 = d^2
+        # Trilateración Mínimos Cuadrados con solo dos Access Points :  (xi-x)^2 + (yi-y)^2 = d^2
         x1 = 0
         x2 = 0
         #x3 = 0
@@ -207,7 +207,10 @@ while(True):
             "PosicionX": coorx,
             "PosicionY": coory,
         }
-        doc_ref2 = db.collection('global_alerts').document(X) #X ES MAC ADDRESS VERIFICAR DE DONDE SALE , COMO FUNCIONA EL SISTEMA
-        doc_ref2.set(datos2,merge=True)
+
+        docs_global_alerts_ref=db.collection('global_alerts').stream()
+        for doc in docs_global_alerts_ref:
+            db.collection('global_alerts').document(doc.id).set(datos2,merge=True)#X ES MAC ADDRESS VERIFICAR DE DONDE SALE , COMO FUNCIONA EL SISTEMA
+
  """
 
