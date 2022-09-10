@@ -12,12 +12,14 @@ class AddUser extends StatelessWidget {
 
   final router=TextEditingController();
   final macAttacker1=TextEditingController();
+  final AttName=TextEditingController();
 
 
   String router_name= '';
   String attacker1= '';
-  String attacker2= '';
+  String attackerName= '';
   List<String?> Lmacs= [];
+  List<String?> Lnames= [];
   String? _token='';
   Future<String?> _tokenFuture = ShowToken.write_token();
 
@@ -38,13 +40,14 @@ class AddUser extends StatelessWidget {
     Future<void> addUser() {
       convertToken(_tokenFuture);
       Lmacs.add(attacker1);
-      Lmacs.add(attacker2);
+      Lnames.add(attackerName);
       // Call the mac_attackers CollectionReference to add a new user
       return
         users
           .doc(router_name)
             .update({
               'attackers': FieldValue.arrayUnion([attacker1]) ,
+              'names_attackers': FieldValue.arrayUnion([attackerName]) ,
               'token': _token,
 
         }
@@ -66,24 +69,7 @@ class AddUser extends StatelessWidget {
 
     //db.collection("mac_attackers").doc("router_name").update({"attackers":[XXXXXX]});
 
-    Future<void> deleteUser() {
-      convertToken(_tokenFuture);
-      Lmacs.add(attacker1);
-      Lmacs.add(attacker2);
-      // Call the mac_attackers CollectionReference to add a new user
-      return
-        users
-            .doc(router_name)
-            .update({
-          'attackers': FieldValue.arrayUnion([attacker1]) ,
-          'token': _token,
 
-        }
-        );
-      // .then((DocumentReference doc) => print('DocumentSnapshot added with ID: ${doc.id}'))
-      // .catchError((error) => print("Failed to add user: $error"));
-
-    }
 
     return Scaffold(
 
@@ -123,15 +109,15 @@ class AddUser extends StatelessWidget {
         ),
         ),
 
-            // Container(
-            //   padding: EdgeInsets.all(15),
-            //   child: TextField(
-            //     controller: macAttacker2,
-            //     decoration: InputDecoration(
-            //         hintText: "Inserte MAC de Agresor 2"
-            //     ),
-            //   ),
-            // ),
+            Container(
+              padding: EdgeInsets.all(15),
+              child: TextField(
+                controller: AttName,
+                decoration: InputDecoration(
+                    hintText: "Inserte MAC el Nombre del Agresor"
+                ),
+              ),
+            ),
 
             Container(
               padding: EdgeInsets.all(25),
@@ -153,9 +139,9 @@ class AddUser extends StatelessWidget {
                   onPressed:(){
                     router_name=router.text;
                     attacker1=macAttacker1.text;
-                    //attacker2=macAttacker2.text;
+                    attackerName=AttName.text;
                     addUser();
-                    print("Usuario Registrado: Mac_Router: ${router}, MacAttacker1: ${attacker1}, MacAttacker2: ${attacker2}" );
+                    print("Usuario Registrado: Mac_Router: ${router}, MacAttacker1: ${attacker1}, NameAttacker: ${ attackerName}" );
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => newAttacker()));
@@ -242,9 +228,13 @@ class DeleteUser extends StatelessWidget {
 
   final router=TextEditingController();
   final macAttacker1=TextEditingController();
+  final AttName=TextEditingController();
+
+
 
   String router_name= '';
   String attacker= '';
+  String attackerName= '';
   String? _token='';
   Future<String?> _tokenFuture = ShowToken.write_token();
 
@@ -270,6 +260,7 @@ class DeleteUser extends StatelessWidget {
             .doc(router_name)
             .update({
           'attackers': FieldValue.arrayRemove([attacker]) ,
+          'names_attackers': FieldValue.arrayRemove([attackerName]) ,
           'token': _token,
 
         }
@@ -315,15 +306,17 @@ class DeleteUser extends StatelessWidget {
             ),
           ),
 
-          // Container(
-          //   padding: EdgeInsets.all(15),
-          //   child: TextField(
-          //     controller: macAttacker2,
-          //     decoration: InputDecoration(
-          //         hintText: "Inserte MAC de Agresor 2"
-          //     ),
-          //   ),
-          // ),
+        Container(
+          padding: EdgeInsets.all(15),
+          child: TextField(
+            controller: AttName,
+            decoration: InputDecoration(
+                hintText: "Inserte Nombre del Agresor a Eliminar"
+            ),
+          ),
+        ),
+
+
 
           Container(
             padding: EdgeInsets.all(25),
@@ -345,9 +338,9 @@ class DeleteUser extends StatelessWidget {
                 onPressed:(){
                   router_name=router.text;
                   attacker=macAttacker1.text;
-                  //attacker2=macAttacker2.text;
-                  DeleteUser();
-                  print("Usuario Eliminado: Mac_Router: ${router}, MacAttacker1: ${attacker}" );
+                  attackerName=AttName.text;
+                  deleteUser();
+                  print("Usuario Eliminado: Mac_Router: ${router}, MacAttacker1: ${attacker}, Nombre: ${attackerName}" );
                   Navigator.push(context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => AttackerDelete()));

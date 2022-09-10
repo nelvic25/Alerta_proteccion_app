@@ -287,9 +287,14 @@ Widget _buildItemArray(String textTitle, String subT) {
   int n= Lmacs.length;
   print(Lmacs);
 
+  String newsubT=subT.replaceAll("[","").replaceAll("]","");
+  List<String> Lnames=newsubT.split(",");
+  int n2= Lnames.length;
+  print(Lnames);
+
   return new ListTile(
-    title: new Text("MAC de Agresor(es) Registrado(s):\n \n - ${Lmacs[n-2]}\n \n - ${ Lmacs[n-1]}\n"),
-    //subtitle: new Text(subT,
+    title: new Text("Agresor(es) Registrado(s):\n \n -Nombre: ${Lnames[n-2]}\n Mac: ${Lmacs[n-2]} \n  \n -Nombre: ${ Lnames[n-1]}\n Mac: ${Lmacs[n-1]}\n"),
+    //subtitle: new Text("MAC de Agresor(es) Registrado(s):\n \n - ${Lmacs[n-2]}\n \n - ${ Lmacs[n-1]}\n"),
    //  style: TextStyle(
    //    fontSize: 12,color: Colors.black
    // ),
@@ -347,7 +352,7 @@ class getNameAttacker extends StatelessWidget {
               child: ListView(
                 children: snapshot.data!.docs.map((document) {
                   return Container(
-                      child: Center(child: _buildItemArray("${document['attackers']}", "Token de Usuario: \n ${document['token']}",
+                      child: Center(child: _buildItemArray("${document['attackers']}", " ${document['names_attackers']}"
                         // style: TextStyle(
                         //     fontSize: 24,color: Colors.black,
                         //     fontFamily: "rbold"
