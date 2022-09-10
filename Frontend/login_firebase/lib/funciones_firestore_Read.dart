@@ -38,11 +38,11 @@ class getData extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                 child: Text(
-                  'HISTORIAL DE REGISTROS',
+                  'Historial de Registros',
                   textAlign: TextAlign.center,
                   style: TextStyle (
                     fontSize: 40,
-                    color: Colors.indigo[600],
+                    color: Colors.pink[900],
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -54,10 +54,13 @@ class getData extends StatelessWidget {
                 alignment:Alignment.center,
                 child:
                 RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                    color: Colors.pink[900],
+                    padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
+                    color: Colors.cyan[800],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                  ),
                     child: Text(
-                      "USUARIOS REGISTRADOS COMO AGRESORES",
+                      "Usuarios Registrados como Agresores",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,color: Colors.white,
@@ -78,10 +81,13 @@ class getData extends StatelessWidget {
                 alignment:Alignment.center,
                 child:
                 RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                    color: Colors.pink[900],
+                    padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
+                    color: Colors.cyan[800],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                  ),
                     child: Text(
-                      "REGISTRO DE ALERTAS",
+                      "Registro de Alertas",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,color: Colors.white,
@@ -94,8 +100,29 @@ class getData extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (BuildContext context) => getName()));
 
-                    }
+                    },
+
                 ),
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+
+                  const SizedBox(width: 30),
+
+                  FloatingActionButton.large(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => Home()));
+                    },
+                    child:
+
+                    const Icon(Icons.account_balance_sharp),
+                    backgroundColor: Colors.pink[900],
+                  ),
+                ],
               ),
 
             ]
@@ -189,7 +216,7 @@ class getName extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.pink[900],
+          backgroundColor: Colors.cyan[800],
 
           title: Text("Historial de Alertas"),
 
@@ -260,13 +287,18 @@ Widget _buildItemArray(String textTitle, String subT) {
   int n= Lmacs.length;
   print(Lmacs);
 
+  String newsubT=subT.replaceAll("[","").replaceAll("]","");
+  List<String> Lnames=newsubT.split(",");
+  int n2= Lnames.length;
+  print(Lnames);
+
   return new ListTile(
-    title: new Text("MAC Address de Agresor(es) registrado(s):\n ${Lmacs[n-2]}\n ${ Lmacs[n-1]}\n"),
-    subtitle: new Text(subT,
+    title: new Text("Agresor(es) Registrado(s):\n \n -Nombre: ${Lnames[n-2]}\n Mac: ${Lmacs[n-2]} \n  \n -Nombre: ${ Lnames[n-1]}\n Mac: ${Lmacs[n-1]}\n"),
+    //subtitle: new Text("MAC de Agresor(es) Registrado(s):\n \n - ${Lmacs[n-2]}\n \n - ${ Lmacs[n-1]}\n"),
    //  style: TextStyle(
    //    fontSize: 12,color: Colors.black
    // ),
-  ),
+//  ),
     leading: new Icon(Icons.accessibility),
     onTap: (){
       //Se puede poner la opcion que lo muestre en el mapa
@@ -294,8 +326,8 @@ class getNameAttacker extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[900],
-        title: Text("MACS Registradas como atacantes"),
+        backgroundColor: Colors.cyan[800],
+        title: Text("MACS de Atacantes"),
       ),
 
       body: StreamBuilder(
@@ -320,7 +352,7 @@ class getNameAttacker extends StatelessWidget {
               child: ListView(
                 children: snapshot.data!.docs.map((document) {
                   return Container(
-                      child: Center(child: _buildItemArray("${document['attackers']}", "Token de Usuario: \n ${document['token']}",
+                      child: Center(child: _buildItemArray("${document['attackers']}", " ${document['names_attackers']}"
                         // style: TextStyle(
                         //     fontSize: 24,color: Colors.black,
                         //     fontFamily: "rbold"

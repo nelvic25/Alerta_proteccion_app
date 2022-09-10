@@ -10,7 +10,7 @@ import 'package:login_firebase/token.dart';
 import 'package:mac_address/mac_address.dart';
 import 'package:login_firebase/inicio_pequeñaEscala.dart';
 
-
+//OPCIONES DE RESGISTRO DE DATOS
 class tipo_Escenario2 extends StatefulWidget {
   @override
   tipo_EscenarioState createState() => tipo_EscenarioState();
@@ -99,8 +99,8 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
                   //AddUser.addDevice();
 
                 },
-                padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                color: Colors.pink[900],
+                padding:EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+                color: Colors.cyan[800],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
@@ -123,37 +123,55 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
                       MaterialPageRoute(builder: (context) =>  DeleteUser()
                       ));
                 },
-                padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                color: Colors.pink[900],
+                padding:EdgeInsets.symmetric(vertical: 30, horizontal: 50),
+                color: Colors.cyan[800],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
               ),
             ),
             //VOLVER AL MENU
-            Container(
-              padding: EdgeInsets.all(25),
-              alignment:Alignment.center,
-              child:
-              RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                  color: Colors.pink[900],
-                  child: Text(
-                    "Volver",
-                    style: TextStyle(
-                        fontSize: 18,color: Colors.white,
-                        fontFamily: "rbold"
-                    ),
-                  ),
-                  onPressed:() {
+            // Container(
+            //   padding: EdgeInsets.all(25),
+            //   alignment:Alignment.center,
+            //   child:
+            //   RaisedButton(
+            //       padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
+            //       color: Colors.black26,
+            //       child: Text(
+            //         "Volver",
+            //         style: TextStyle(
+            //             fontSize: 18,color: Colors.white,
+            //             fontFamily: "rbold"
+            //         ),
+            //       ),
+            //       onPressed:() {
+            //
+            //         Navigator.push(context,
+            //             MaterialPageRoute(
+            //                 builder: (BuildContext context) => Home()));
+            //       }
+            //
+            //   ),
+            //
+            // ),
 
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(width: 30),
+                FloatingActionButton.large(
+                  onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => Home()));
-                  }
-
-              ),
-
+                  },
+                  child:
+                  const Icon(Icons.account_balance_sharp),
+                  backgroundColor: Colors.pink[900],
+                ),
+              ],
             ),
 
 

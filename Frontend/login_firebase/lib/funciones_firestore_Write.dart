@@ -12,12 +12,14 @@ class AddUser extends StatelessWidget {
 
   final router=TextEditingController();
   final macAttacker1=TextEditingController();
+  final AttName=TextEditingController();
 
 
   String router_name= '';
   String attacker1= '';
-  String attacker2= '';
+  String attackerName= '';
   List<String?> Lmacs= [];
+  List<String?> Lnames= [];
   String? _token='';
   Future<String?> _tokenFuture = ShowToken.write_token();
 
@@ -38,13 +40,14 @@ class AddUser extends StatelessWidget {
     Future<void> addUser() {
       convertToken(_tokenFuture);
       Lmacs.add(attacker1);
-      Lmacs.add(attacker2);
+      Lnames.add(attackerName);
       // Call the mac_attackers CollectionReference to add a new user
       return
         users
           .doc(router_name)
             .update({
               'attackers': FieldValue.arrayUnion([attacker1]) ,
+              'names_attackers': FieldValue.arrayUnion([attackerName]) ,
               'token': _token,
 
         }
@@ -66,40 +69,25 @@ class AddUser extends StatelessWidget {
 
     //db.collection("mac_attackers").doc("router_name").update({"attackers":[XXXXXX]});
 
-    Future<void> deleteUser() {
-      convertToken(_tokenFuture);
-      Lmacs.add(attacker1);
-      Lmacs.add(attacker2);
-      // Call the mac_attackers CollectionReference to add a new user
-      return
-        users
-            .doc(router_name)
-            .update({
-          'attackers': FieldValue.arrayUnion([attacker1]) ,
-          'token': _token,
 
-        }
-        );
-      // .then((DocumentReference doc) => print('DocumentSnapshot added with ID: ${doc.id}'))
-      // .catchError((error) => print("Failed to add user: $error"));
-
-    }
 
     return Scaffold(
 
       backgroundColor: Colors.white,
       appBar:AppBar(
         title: Text("REGISTRE LOS DATOS"),
-        backgroundColor: Colors.pink[900],
+        backgroundColor: Colors.cyan[800],
       ),
 
 //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
       /////children
       //agregar funcion que permita ir ingresando mac de atackers segun lo vaya
       //pidiendo el usuario
-      body:ListView(
-
-          children: [
+      body:Container(
+      child: Center(
+      child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:<Widget> [
 
       Container(
       padding: EdgeInsets.all(15),
@@ -116,20 +104,20 @@ class AddUser extends StatelessWidget {
           child: TextField(
           controller: macAttacker1,
           decoration: InputDecoration(
-          hintText: "Inserte MAC de Agresor 1"
+          hintText: "Inserte MAC del Agresor"
         ),
         ),
         ),
 
-            // Container(
-            //   padding: EdgeInsets.all(15),
-            //   child: TextField(
-            //     controller: macAttacker2,
-            //     decoration: InputDecoration(
-            //         hintText: "Inserte MAC de Agresor 2"
-            //     ),
-            //   ),
-            // ),
+            Container(
+              padding: EdgeInsets.all(15),
+              child: TextField(
+                controller: AttName,
+                decoration: InputDecoration(
+                    hintText: "Inserte MAC el Nombre del Agresor"
+                ),
+              ),
+            ),
 
             Container(
               padding: EdgeInsets.all(25),
@@ -137,7 +125,10 @@ class AddUser extends StatelessWidget {
               child:
               RaisedButton(
                   padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                  color: Colors.pink[900],
+                  color: Colors.cyan[800],
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)
+                  ),
                   child: Text(
                     "Confirmar datos",
                     style: TextStyle(
@@ -148,9 +139,9 @@ class AddUser extends StatelessWidget {
                   onPressed:(){
                     router_name=router.text;
                     attacker1=macAttacker1.text;
-                    //attacker2=macAttacker2.text;
+                    attackerName=AttName.text;
                     addUser();
-                    print("Usuario Registrado: Mac_Router: ${router}, MacAttacker1: ${attacker1}, MacAttacker2: ${attacker2}" );
+                    print("Usuario Registrado: Mac_Router: ${router}, MacAttacker1: ${attacker1}, NameAttacker: ${ attackerName}" );
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => newAttacker()));
@@ -161,8 +152,9 @@ class AddUser extends StatelessWidget {
 
   ],
     ),
+              ),
+    ),
     );
-
   }
 }
 
@@ -190,39 +182,35 @@ class newAttacker extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                   child: Text(
-                    'Atacantes Registrados',
+                    'Usuario Registrado',
                     style: TextStyle (
-                      fontSize: 40,
-                      color: Colors.indigo[600],
+                      fontSize: 50,
+                      color: Colors.cyan[800],
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
 
-                Container(
-                  padding: EdgeInsets.all(25),
-                  alignment:Alignment.center,
-                  child:
-                  RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                    color: Colors.pink[900],
-                    child: Text(
-                      "Volver",
-                      style: TextStyle(
-                          fontSize: 18,color: Colors.white,
-                          fontFamily: "rbold"
-                      ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+
+                    const SizedBox(width: 30),
+
+                    FloatingActionButton.large(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => Home()));
+                      },
+                      child:
+
+                      const Icon(Icons.account_balance_sharp),
+                      backgroundColor: Colors.pink[900],
                     ),
-                    onPressed:() {
-
-                      Navigator.push(context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) => Home()));
-                    }
-
-                  ),
-
+                  ],
                 ),
+
 
 
               ],
@@ -240,9 +228,13 @@ class DeleteUser extends StatelessWidget {
 
   final router=TextEditingController();
   final macAttacker1=TextEditingController();
+  final AttName=TextEditingController();
+
+
 
   String router_name= '';
   String attacker= '';
+  String attackerName= '';
   String? _token='';
   Future<String?> _tokenFuture = ShowToken.write_token();
 
@@ -268,6 +260,7 @@ class DeleteUser extends StatelessWidget {
             .doc(router_name)
             .update({
           'attackers': FieldValue.arrayRemove([attacker]) ,
+          'names_attackers': FieldValue.arrayRemove([attackerName]) ,
           'token': _token,
 
         }
@@ -279,17 +272,19 @@ class DeleteUser extends StatelessWidget {
 
       backgroundColor: Colors.white,
       appBar:AppBar(
-        title: Text("REGISTRE LA MAC DEL USUARIO QUE DESEA ELIMINAR"),
-        backgroundColor: Colors.pink[900],
+        title: Text("Registre la MAC a Eliminar"),
+        backgroundColor: Colors.cyan[800],
       ),
 
 //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
       /////children
       //agregar funcion que permita ir ingresando mac de atackers segun lo vaya
       //pidiendo el usuario
-      body:ListView(
-
-        children: [
+      body:Container(
+      child: Center(
+      child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children:<Widget> [
 
           Container(
             padding: EdgeInsets.all(15),
@@ -311,15 +306,17 @@ class DeleteUser extends StatelessWidget {
             ),
           ),
 
-          // Container(
-          //   padding: EdgeInsets.all(15),
-          //   child: TextField(
-          //     controller: macAttacker2,
-          //     decoration: InputDecoration(
-          //         hintText: "Inserte MAC de Agresor 2"
-          //     ),
-          //   ),
-          // ),
+        Container(
+          padding: EdgeInsets.all(15),
+          child: TextField(
+            controller: AttName,
+            decoration: InputDecoration(
+                hintText: "Inserte Nombre del Agresor a Eliminar"
+            ),
+          ),
+        ),
+
+
 
           Container(
             padding: EdgeInsets.all(25),
@@ -327,7 +324,10 @@ class DeleteUser extends StatelessWidget {
             child:
             RaisedButton(
                 padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                color: Colors.pink[900],
+                color: Colors.cyan[800],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30)
+                ),
                 child: Text(
                   "Confirmar datos",
                   style: TextStyle(
@@ -338,9 +338,9 @@ class DeleteUser extends StatelessWidget {
                 onPressed:(){
                   router_name=router.text;
                   attacker=macAttacker1.text;
-                  //attacker2=macAttacker2.text;
-                  DeleteUser();
-                  print("Usuario Eliminado: Mac_Router: ${router}, MacAttacker1: ${attacker}" );
+                  attackerName=AttName.text;
+                  deleteUser();
+                  print("Usuario Eliminado: Mac_Router: ${router}, MacAttacker1: ${attacker}, Nombre: ${attackerName}" );
                   Navigator.push(context,
                       MaterialPageRoute(
                           builder: (BuildContext context) => AttackerDelete()));
@@ -350,7 +350,9 @@ class DeleteUser extends StatelessWidget {
           ),
 
         ],
+        ),
       ),
+    ),
     );
 
   }
@@ -385,37 +387,31 @@ class AttackerDelete extends StatelessWidget {
                 'MAC Eliminada',
                 style: TextStyle (
                   fontSize: 40,
-                  color: Colors.indigo[600],
+                  color: Colors.cyan[800],
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
 
-            Container(
-              padding: EdgeInsets.all(25),
-              alignment:Alignment.center,
-              child:
-              RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                  color: Colors.pink[900],
-                  child: Text(
-                    "Volver",
-                    style: TextStyle(
-                        fontSize: 18,color: Colors.white,
-                        fontFamily: "rbold"
-                    ),
-                  ),
-                  onPressed:() {
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
 
+                const SizedBox(width: 30),
+
+                FloatingActionButton.large(
+                  onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (BuildContext context) => Home()));
-                  }
+                  },
+                  child:
 
-              ),
-
+                  const Icon(Icons.account_balance_sharp),
+                  backgroundColor: Colors.pink[900],
+                ),
+              ],
             ),
-
 
           ],
         ),

@@ -19,6 +19,8 @@ class Home2 extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+
+
     //traer user
     final User? usuario = FirebaseAuth.instance.currentUser;
     String? email = "";
@@ -43,7 +45,7 @@ class Home2 extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.indigo[400],
+        backgroundColor: Colors.cyan[800],
       ),
 
       body: Container(
@@ -57,47 +59,51 @@ class Home2 extends StatelessWidget {
 
         child: Center(
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children:<Widget> [
               Padding(
-                padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
+                padding: const EdgeInsets.only(top: 50.0, bottom: 0.0),
                 child: Text(
-                  'GRAN-ESCALA',
+                  'Outdoor',
                   style: TextStyle (
-                    fontSize: 40,
-                    color: Colors.indigo[600],
-                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.pink[900],
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
 
-              Container(
-                padding: EdgeInsets.all(20),
-                //  child:GestureDetector(
-                child: FlatButton(
-                  child: Text(
-                    "BOTON DE PÁNICO",
-                    style: TextStyle(
-                        fontSize: 18, color: Colors.white
-                    ),
-                  ),
-                  onPressed:() {
-                    print("Alerta enviada");
-
-                  },
-                  padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  color: Colors.red,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text('Necesitas Ayuda? ->',
+                style: TextStyle (
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
               ),
+                  ),
+                  const SizedBox(width: 40),
+
+                  FloatingActionButton.large(
+                    onPressed: () {
+                    },
+                    child:
+                    //const Text('Bontón de Panico'),
+                    const Icon(Icons.add_alert),
+                    backgroundColor: Colors.red,
+                  ),
+                ],
+              ),
+
+
+
+
               Container(
                 child: FlatButton(
                   child: Text(
                     "VER EN EL MAPA",
                     style: TextStyle(
-                        fontSize: 18, color: Colors.white
+                        fontSize: 20, color: Colors.white
                     ),
                   ),
                   onPressed:() {
@@ -106,10 +112,10 @@ class Home2 extends StatelessWidget {
                         ));
                     // print("AGREGAR AGRESOR");
                   },
-                  padding:EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  color: Colors.indigo[400],
+                  padding:EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                  color: Colors.cyan[800],
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)
+                      borderRadius: BorderRadius.circular(30)
                   ),
                 ),
               ),
