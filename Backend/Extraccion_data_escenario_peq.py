@@ -66,6 +66,11 @@ while(cont=='Y' or cont=='y'):
 os.system('cls')
 print ('######### MONITOREO ACTIVO #########')
 while(True):
+    lista_victimas_globales=[]
+    docs_global_alerts_ref=db.collection('global_alerts').stream()
+    for doc in docs_global_alerts_ref:   
+        lista_victimas_globales.append(doc.id)
+
     for ip in listaIp_peq:
         Ap_credentials["ip"]=ip
         try:
@@ -135,82 +140,88 @@ while(True):
             malasIp.append(ip)
             #print (e)
             time.sleep(2)
-           
+       
+    for victima in lista_victimas_globales:
+        lista_valores_rss=[]
+        for ip in listaIp_gra:
+            Ap_credentials["ip"]=ip
+            try:
+                connection1 = nk.ConnectHandler(**Ap_credentials)
+                Ap_data = connection1.send_command("horst")
+                lista_dispositivos = Ap_data.splitlines()
+                for cada_dispositivo in lista_dispositivos:
+                    if victima in cada_dispositivo:
+                        lista_valores_rss.append(cada_dispositivo.split()[2])
 
-    for ip in listaIp_gra:
-        Ap_credentials["ip"]=ip
-        try:
-            connection1 = nk.ConnectHandler(**Ap_credentials)
-            time.sleep(5)
-        except Exception as e:
-            print('Error al tratar de realizar la conexion con el Ip : '+ ip +' Infraestructura gran cobertura.')
-            print('Eliminando registro '+ ip + ' ...')
-            #listaIp_gra.remove(ip)
-            malasIp.append(ip)
-            time.sleep(2)
+                time.sleep(3)
+            except Exception as e:
+                print('Error al tratar de realizar la conexion con el Ip : '+ ip +' Infraestructura gran cobertura.')
+                print('Eliminando registro '+ ip + ' ...')
+                #listaIp_gra.remove(ip)
+                malasIp.append(ip)
+                time.sleep(2)
 
-    for ip in malasIp:
-        if ip in listaIp_gra :
-            listaIp_gra.remove(ip)
-        elif ip in listaIp_peq : 
-            listaIp_peq.remove(ip)
+        for ip in malasIp:
+            if ip in listaIp_gra :
+                listaIp_gra.remove(ip)
+            elif ip in listaIp_peq : 
+                listaIp_peq.remove(ip)
 
-""" 
-        # Modelo Matemático de canal PATH LOSS
-        # RSSI=-10nlog(d/d0)+RSSI0 - 15
+        print(victima+" Esta solicitando ayuda. Posicionando... ")
 
-        rssi0 = -14  # Valor promedio de RSSI a una distancia d0/ d0=1
-        n = 4  # Factor de atenuación en interiores
-        rssiT1 = (rssi0-rssi-15)/(10*n)
-        d1 = 10**(rssiT1)
-        rssiT2 = (rssi0-(valor_rssi[0])-15)/(10*n)
-        d2 = 10**(rssiT2)
-        #rssiT3 = (rssi0-(valor_rssi[1])-15)/(10*n)
-        #d2 = 10**(rssiT2)
+        # Modelo Matemático de canal PATH LOSS RSSI=-10nlog(d/d0)+RSSI0 - 15
+        # rssi0 = -14  # Valor promedio de RSSI a una distancia d0/ d0=1
+        # n = 4  # Factor de atenuación en interiores
 
-        # Trilateración Mínimos Cuadrados con solo dos Access Points :  (xi-x)^2 + (yi-y)^2 = d^2
-        x1 = 0
-        x2 = 0
-        #x3 = 0
-        y1 = -7.35
-        y2 = 7.35
-        #y3 = 0
-        #COORDENADAS DE LOS AP CONOCIDOS
+        # rssiT1 = (rssi0-lista_valores_rss[0]-15)/(10*n)
+        # d1 = 10**(rssiT1)
+        # rssiT2 = (rssi0-(lista_valores_rss[1])-15)/(10*n)
+        # d2 = 10**(rssiT2)
+        # #rssiT3 = (rssi0-(lista_valores_rss[2])-15)/(10*n)
+        # #d3= 10**(rssiT3)
 
-        x, y = var('x y')
-        #x, y , z= var('x y z')
+        # #COORDENADAS DE LOS AP CONOCIDOS
+        # x1 = 0
+        # x2 = 0
+        # #x3 = 7.35
+        # y1 = -7.35
+        # y2 = 7.35
+        # #y3 = 0
 
-        f1 = (x-x1)**2 + (y-y1)**2 - d1**2
-        f2 = (x-x2)**2 + (y-y2)**2 - d2**2
-        #f3 = (x-x3)**2 + (y-y3)**2 - d3**2
+        # x, y = var('x y')
+        # #x, y , z= var('x y z')
 
-        sols = solve((f1, f2 ), (x, y))
-        #sols = solve((f1, f2 , f3), (x, y ,z))
-        print(sols)
 
-        if(("I" in str(sols[1][0])) or ("I" in str(sols[1][1]))):
-            cx = str(sols[1][0])[0:-2]
-            cx= float(cx)
-            cy = float(sols[1][1])
-            coorx = round(cx, 2)
-            coory = round(cy, 2)
-            print(cx)
-        else: 
-            cx = float(sols[1][0])
-            cy = float(sols[1][1])
-            cz = float(sols[1][2])
-            coorx = round(cx, 2)
-            coory = round(cy, 2)
+        # # Trilateración Mínimos Cuadrados con solo dos Access Points :  (xi-x)^2 + (yi-y)^2 = d^2
+
+        # f1 = (x-x1)**2 + (y-y1)**2 - d1**2
+        # f2 = (x-x2)**2 + (y-y2)**2 - d2**2
+        # f3 = (x-x3)**2 + (y-y3)**2 - d3**2
+
+        # sols = solve((f1, f2, f3), (x, y))
+        # print(sols)
+
+        # if(("I" in str(sols[1][0])) or ("I" in str(sols[1][1]))):
+        #     cx = str(sols[1][0])[0:-2]
+        #     cx= float(cx)
+        #     cy = float(sols[1][1])
+        #     coorx = round(cx, 2)
+        #     coory = round(cy, 2)
+        #     print(cx)
+        # else: 
+        #     cx = float(sols[1][0])
+        #     cy = float(sols[1][1])
+        #     coorx = round(cx, 2)
+        #     coory = round(cy, 2)
+
 
         datos2={
-            "AP_name": AP_name,
-            "PosicionX": coorx,
-            "PosicionY": coory,
+            "PosicionX": 'coorx',
+            "PosicionY": 'coory',
         }
+        db.collection('global_alerts').document(victima).set(datos2,merge=True)#SE ESTA ACTUALIZANDO LA POSICION CONSTANTEMENTE DE CADA DISPOSITIVO QUE ESTA PIDIENDO SOCORRO EN LA COLECCION GLOBAL ALERTS
 
-        docs_global_alerts_ref=db.collection('global_alerts').stream()
-        for doc in docs_global_alerts_ref:
-            db.collection('global_alerts').document(doc.id).set(datos2,merge=True)#X ES MAC ADDRESS VERIFICAR DE DONDE SALE , COMO FUNCIONA EL SISTEMA
+        
 
- """
+       
 
