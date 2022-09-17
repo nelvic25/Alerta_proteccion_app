@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:login_firebase/funciones_firestore_Read.dart';
 import 'package:login_firebase/main.dart';
 import 'package:login_firebase/funciones_firestore_Write.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 
 
@@ -45,7 +46,7 @@ class Home2 extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.cyan[800],
+        backgroundColor:  Colors.purple[200],
       ),
 
       body: Container(
@@ -107,13 +108,34 @@ class Home2 extends StatelessWidget {
                     ),
                   ),
                   onPressed:() {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AddUser()
-                        ));
-                    // print("AGREGAR AGRESOR");
+
+                    //FUNCIÓN QUE LLAMA DIRECTAMENTE A LA POLICIA(911)
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => AlertDialog(
+                        title: Text(" LLAMAR A EMERGENCIAS Y ENVIAR ALERTAS A USUARIOS CERCANOS!"),
+                        content: Text("Está seguro?"),
+                        actions:<Widget> [
+                          FlatButton(
+                            child: Text("SÍ"),
+                            onPressed:() async {
+                              FlutterPhoneDirectCaller.callNumber("911");
+                            },
+                          ),
+                          FlatButton(
+                            child: Text("CANCELAR"),
+                            onPressed:() {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+
                   },
                   padding:EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                  color: Colors.cyan[800],
+                  color:  Colors.purple[200],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)
                   ),
@@ -140,3 +162,11 @@ class Home2 extends StatelessWidget {
   }
 
 }
+
+//
+// child: Image.asset(
+// 'assets/building.png',
+// fit: BoxFit.cover, // Fixes border issues
+// width: 180.0,
+// height: 180.0,
+// ),

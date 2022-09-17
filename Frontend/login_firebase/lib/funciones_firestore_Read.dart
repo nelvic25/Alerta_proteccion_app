@@ -55,7 +55,7 @@ class getData extends StatelessWidget {
                 child:
                 RaisedButton(
                     padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
-                    color: Colors.cyan[800],
+                    color:  Colors.purple[200],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)
                   ),
@@ -82,7 +82,7 @@ class getData extends StatelessWidget {
                 child:
                 RaisedButton(
                     padding: EdgeInsets.symmetric(vertical:30, horizontal: 50),
-                    color: Colors.cyan[800],
+                    color:  Colors.purple[200],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)
                   ),
@@ -216,7 +216,7 @@ class getName extends StatelessWidget {
 
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.cyan[800],
+          backgroundColor:  Colors.purple[200],
 
           title: Text("Historial de Alertas"),
 
@@ -326,7 +326,7 @@ class getNameAttacker extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.cyan[800],
+        backgroundColor:  Colors.purple[200],
         title: Text("MACS de Atacantes"),
       ),
 

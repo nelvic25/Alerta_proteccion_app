@@ -98,8 +98,8 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
                   //AddUser.addDevice();
 
                 },
-                padding:EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-                color: Colors.cyan[800],
+                padding:EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+                color:  Colors.purple[200],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
@@ -122,8 +122,8 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
                       MaterialPageRoute(builder: (context) =>  DeleteUser()
                       ));
                 },
-                padding:EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-                color: Colors.cyan[800],
+                padding:EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+                color:  Colors.purple[200],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),

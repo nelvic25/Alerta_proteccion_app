@@ -208,7 +208,7 @@ class _LoginState extends State<Login> {
 
 
       key: _scaffoldKey,
-      backgroundColor: Colors.pink[800],
+      backgroundColor: Colors.purple[200],
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
