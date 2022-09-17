@@ -161,9 +161,7 @@ class AddUser extends StatelessWidget {
 class newAttacker extends StatelessWidget {
   AddUser a=AddUser();
 
-
   newAttacker createState() => newAttacker();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,10 +181,11 @@ class newAttacker extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 120.0, bottom: 0.0),
                   child: Text(
                     'Usuario Registrado',
+                    textAlign: TextAlign.center,
                     style: TextStyle (
                       fontSize: 50,
                       color: Colors.cyan[800],
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                 ),
@@ -211,12 +210,9 @@ class newAttacker extends StatelessWidget {
                   ],
                 ),
 
-
-
               ],
     ),
         ),
-
     );
 
   }
@@ -225,11 +221,9 @@ class newAttacker extends StatelessWidget {
 
 class DeleteUser extends StatelessWidget {
 
-
   final router=TextEditingController();
   final macAttacker1=TextEditingController();
   final AttName=TextEditingController();
-
 
 
   String router_name= '';
@@ -250,7 +244,6 @@ class DeleteUser extends StatelessWidget {
     }
     convertToken(_tokenFuture);
 
-
     Future<void> deleteUser() {
       convertToken(_tokenFuture);
 
@@ -262,10 +255,8 @@ class DeleteUser extends StatelessWidget {
           'attackers': FieldValue.arrayRemove([attacker]) ,
           'names_attackers': FieldValue.arrayRemove([attackerName]) ,
           'token': _token,
-
         }
         );
-
     }
 
     return Scaffold(
@@ -423,3 +414,107 @@ class AttackerDelete extends StatelessWidget {
 }
 
 
+
+class AddContact extends StatelessWidget {
+
+  final router=TextEditingController();
+  final macContact=TextEditingController();
+
+  String router_name= '';
+  String contact= '';
+
+  //AddUser(this.user, this.macUser
+  @override
+  Widget build(BuildContext context) {
+    // Create a CollectionReference called users that references the firestore collection
+    CollectionReference users = FirebaseFirestore.instance.collection('mac_attackers');
+
+    Future<void> addUser() {
+      // Call the mac_attackers CollectionReference to add a new user
+      return
+        users
+            .doc(router_name)
+            .update({
+          'contact': FieldValue.arrayUnion([contact]) ,
+        }
+        );
+    }
+
+
+    return Scaffold(
+
+      backgroundColor: Colors.white,
+      appBar:AppBar(
+        title: Text("Contacto de Emergencia"),
+        backgroundColor: Colors.cyan[800],
+      ),
+      //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
+      /////children
+      //agregar funcion que permita ir ingresando mac de atackers segun lo vaya
+      //pidiendo el usuario
+      body:Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:<Widget> [
+
+              Container(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  controller: router,
+                  decoration: InputDecoration(
+                      hintText: "MAC de su Router"
+                  ),
+                ),
+              ),
+
+              Container(
+                padding: EdgeInsets.all(15),
+                child: TextField(
+                  controller: macContact,
+                  decoration: InputDecoration(
+                      hintText: "MAC de Contacto de Emergencia"
+                  ),
+                ),
+              ),
+
+
+
+              Container(
+                padding: EdgeInsets.all(25),
+                alignment:Alignment.center,
+                child:
+                RaisedButton(
+                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
+                    color: Colors.cyan[800],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)
+                    ),
+                    child: Text(
+                      "Confirmar datos",
+                      style: TextStyle(
+                          fontSize: 18,color: Colors.white,
+                          fontFamily: "rbold"
+                      ),
+                    ),
+                    onPressed:(){
+                      router_name=router.text;
+                      contact=macContact.text;
+
+                      addUser();
+                        print("Contacto Registrado: Mac_Router: ${router}, MacContact: ${contact}" );
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => newAttacker()));
+
+                    }
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -63,7 +63,6 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
         });
     }
 
-
     return Scaffold(
 
       body: Container(
@@ -156,7 +155,6 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
             //
             // ),
 
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -174,17 +172,12 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
               ],
             ),
 
-
-
           ],
         ),
       ),
       ),
-
     );
-
   }
-
 
 
 }

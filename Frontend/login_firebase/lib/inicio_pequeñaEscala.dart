@@ -139,7 +139,6 @@ class Home extends StatelessWidget  {
 
 
 
-
           Container(
             padding: EdgeInsets.all(30),
             child: FlatButton(
@@ -151,13 +150,13 @@ class Home extends StatelessWidget  {
               ),
               onPressed:() {
                 Navigator.push(context,
-                   MaterialPageRoute(builder: (context) => tipo_Escenario2()
+                   MaterialPageRoute(builder: (context) => tipo_Escenario2() //crear o eliminar
                     ));
                 ShowToken.write_token();
                // getmac();
                //mac();
               },
-              padding:EdgeInsets.symmetric(vertical: 40, horizontal: 60),
+              padding:EdgeInsets.symmetric(vertical: 30, horizontal: 60),
               color: Colors.cyan[800],
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)
@@ -182,7 +181,33 @@ class Home extends StatelessWidget  {
                 MaterialPageRoute(builder: (context) =>  getData()
                 ));
               },
-              padding:EdgeInsets.symmetric(vertical: 40, horizontal: 60),
+              padding:EdgeInsets.symmetric(vertical: 30, horizontal: 60),
+              color: Colors.cyan[800],
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)
+              ),
+            ),
+          ),
+
+          Container(
+            padding: EdgeInsets.all(30),
+            child: FlatButton(
+              child: Text(
+                "AÑADIR CONTADO DE EMERGENCIA",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 20, color: Colors.white
+                ),
+              ),
+              onPressed:() {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AddContact() //crear o eliminar
+                    ));
+                ShowToken.write_token();
+                // getmac();
+                //mac();
+              },
+              padding:EdgeInsets.symmetric(vertical: 30, horizontal: 60),
               color: Colors.cyan[800],
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)
