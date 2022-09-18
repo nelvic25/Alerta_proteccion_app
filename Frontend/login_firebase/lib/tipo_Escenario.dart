@@ -18,50 +18,12 @@ class tipo_Escenario2 extends StatefulWidget {
 
 class tipo_EscenarioState extends State<tipo_Escenario2> {
 
-  String? _token='';
-  String? _mac='';
-  Future<String?> _tokenFuture = ShowToken.write_token();
-  //Future<String?> MAC=ShowToken.write_MAC2();
 
   tipo_Escenario2 createState() => tipo_Escenario2();
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference users = FirebaseFirestore.instance.collection('data_devices');
 
-    Future<void> write_MAC2() async {
-      String mac2;
-      // Platform messages may fail, so we use a try/catch PlatformException.
-      try {
-        mac2 = await GetMac.macAddress;
-      }on PlatformException {
-        mac2 = 'Error getting the MAC address.';
-      }
-      setState(() {
-        _mac = mac2;
-      });
-    }
-
-
-    void convertToken(Future<String?> t) async{
-      this._token = await t;
-    }
-
-    // void convertMac(Future<String?> m) async{
-    //   this._mac = await m;
-    // }
-    Future<void> addDevice() {
-      convertToken(_tokenFuture);
-      //print ("TOKEN ${_token} AND MAC ${MAC}");
-      //convertToken(MAC);
-      // Call the data_devices CollectionReference to add a new user
-      return
-        users
-            .doc(_mac)
-            .set({
-          'token': _token,
-        });
-    }
 
     return Scaffold(
 
@@ -88,18 +50,15 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
                   ),
                 ),
                 onPressed:() {
-                //  addDevice();
-                 // write_MAC2();
+
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => AddUser()
                       ));
-                  //cuando elija este escenario se almacena en data_devices
-                  //nombre de doc: mac del device y atributo token del device
-                  //AddUser.addDevice();
+
 
                 },
-                padding:EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-                color: Colors.cyan[800],
+                padding:EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+                color:  Colors.purple[200],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),
@@ -122,8 +81,8 @@ class tipo_EscenarioState extends State<tipo_Escenario2> {
                       MaterialPageRoute(builder: (context) =>  DeleteUser()
                       ));
                 },
-                padding:EdgeInsets.symmetric(vertical: 30, horizontal: 50),
-                color: Colors.cyan[800],
+                padding:EdgeInsets.symmetric(vertical: 40, horizontal: 50),
+                color:  Colors.purple[200],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)
                 ),

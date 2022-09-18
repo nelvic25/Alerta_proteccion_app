@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8378a21a-88fa-49da-b99d-7c9ee98c028f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Frontend.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/assets/building.png" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/assets/building.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/assets/home.png" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/assets/home.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/lib/funciones_firestore_Read.dart" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/lib/funciones_firestore_Read.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/lib/funciones_firestore_Write.dart" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/lib/funciones_firestore_Write.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/lib/inicio_granEscala.dart" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/lib/inicio_granEscala.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/lib/inicio_pequeñaEscala.dart" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/lib/inicio_pequeñaEscala.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_firebase/lib/tipo_Escenario.dart" beforeDir="false" afterPath="$PROJECT_DIR$/login_firebase/lib/tipo_Escenario.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,11 +36,11 @@
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/login_firebase" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="coverage" />
+    <property name="settings.editor.selected.configurable" value="dart.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RunManager" selected="Dart Command Line App.main.dart">

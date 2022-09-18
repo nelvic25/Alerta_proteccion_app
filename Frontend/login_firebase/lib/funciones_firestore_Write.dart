@@ -75,8 +75,8 @@ class AddUser extends StatelessWidget {
 
       backgroundColor: Colors.white,
       appBar:AppBar(
-        title: Text("REGISTRE LOS DATOS"),
-        backgroundColor: Colors.cyan[800],
+        title: Text("Registre los Datos"),
+        backgroundColor:  Colors.purple[200],
       ),
 
 //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
@@ -124,8 +124,8 @@ class AddUser extends StatelessWidget {
               alignment:Alignment.center,
               child:
               RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                  color: Colors.cyan[800],
+                  padding: EdgeInsets.symmetric(vertical:20, horizontal: 30),
+                  color:  Colors.purple[200],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30)
                   ),
@@ -184,7 +184,7 @@ class newAttacker extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle (
                       fontSize: 50,
-                      color: Colors.cyan[800],
+                      color:  Colors.purple[200],
                       fontWeight: FontWeight.w800,
                     ),
                   ),
@@ -264,7 +264,7 @@ class DeleteUser extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar:AppBar(
         title: Text("Registre la MAC a Eliminar"),
-        backgroundColor: Colors.cyan[800],
+        backgroundColor:  Colors.purple[200],
       ),
 
 //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
@@ -314,8 +314,8 @@ class DeleteUser extends StatelessWidget {
             alignment:Alignment.center,
             child:
             RaisedButton(
-                padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                color: Colors.cyan[800],
+                padding: EdgeInsets.symmetric(vertical:20, horizontal: 30),
+                color:  Colors.purple[200],
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)
                 ),
@@ -378,7 +378,7 @@ class AttackerDelete extends StatelessWidget {
                 'MAC Eliminada',
                 style: TextStyle (
                   fontSize: 40,
-                  color: Colors.cyan[800],
+                  color:  Colors.purple[200],
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -446,7 +446,7 @@ class AddContact extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar:AppBar(
         title: Text("Contacto de Emergencia"),
-        backgroundColor: Colors.cyan[800],
+        backgroundColor:  Colors.purple[200],
       ),
       //para poner imagen de fondo, cambiar listview a container y crear un child : Column( antes del
       /////children
@@ -485,8 +485,8 @@ class AddContact extends StatelessWidget {
                 alignment:Alignment.center,
                 child:
                 RaisedButton(
-                    padding: EdgeInsets.symmetric(vertical:10, horizontal: 30),
-                    color: Colors.cyan[800],
+                    padding: EdgeInsets.symmetric(vertical:20, horizontal: 30),
+                    color:  Colors.purple[200],
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30)
                     ),

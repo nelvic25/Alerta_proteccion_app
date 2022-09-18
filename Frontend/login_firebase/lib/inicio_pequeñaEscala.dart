@@ -59,7 +59,7 @@ class Home extends StatelessWidget  {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.cyan[800],
+        backgroundColor:  Colors.purple[200],
       ),
 
 
@@ -110,7 +110,7 @@ class Home extends StatelessWidget  {
                     context: context,
                     barrierDismissible: false,
                     builder: (context) => AlertDialog(
-                      title: Text(" LLAMANDO A EMERGENCIAS (911)"),
+                      title: Text(" LLAMAR A EMERGENCIAS Y ALERTAS A TUS CONTACTOS!"),
                       content: Text("Está seguro?"),
                       actions:<Widget> [
                         FlatButton(
@@ -157,7 +157,7 @@ class Home extends StatelessWidget  {
                //mac();
               },
               padding:EdgeInsets.symmetric(vertical: 30, horizontal: 60),
-              color: Colors.cyan[800],
+              color:  Colors.purple[200],
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)
               ),
@@ -182,7 +182,7 @@ class Home extends StatelessWidget  {
                 ));
               },
               padding:EdgeInsets.symmetric(vertical: 30, horizontal: 60),
-              color: Colors.cyan[800],
+              color:  Colors.purple[200],
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)
               ),
@@ -208,7 +208,7 @@ class Home extends StatelessWidget  {
                 //mac();
               },
               padding:EdgeInsets.symmetric(vertical: 30, horizontal: 60),
-              color: Colors.cyan[800],
+              color:  Colors.purple[200],
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30)
               ),
@@ -234,15 +234,15 @@ class Home extends StatelessWidget  {
     await FirebaseAuth.instance.signOut();
     Navigator.pop(context);
   }
-  // Future getMAC() async {
-  //   mac = await macadressGen.getMac();
-  //   print("Esta es la mac: ${mac}");
-  // }
+// Future getMAC() async {
+//   mac = await macadressGen.getMac();
+//   print("Esta es la mac: ${mac}");
+// }
 
-  // Future<void> getmac() async {
-  //   String mac = await Channel.invokeMethod('getMAC');
-  //   print("Esta es la mac: ${mac}");
-  // }
+// Future<void> getmac() async {
+//   String mac = await Channel.invokeMethod('getMAC');
+//   print("Esta es la mac: ${mac}");
+// }
 
 
 
