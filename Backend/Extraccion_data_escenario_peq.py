@@ -75,7 +75,7 @@ while(True):
         Ap_credentials["ip"]=ip
         try:
             connection1 = nk.ConnectHandler(**Ap_credentials)
-            Ap_data = connection1.send_command("iwinfo wl0 info")
+            Ap_data = connection1.send_command("iwinfo wlan0 info")
             Ap_data_splitline = Ap_data.splitlines()[1:2:1]
             Ap_data_splitline2 = Ap_data.splitlines()[:1:1] #PARA SACAR EL NOMBRE DEL ACCESS POINT
             Ap_data_list=Ap_data_splitline[0].split()
@@ -85,17 +85,12 @@ while(True):
             #Se obtiene la MAC Address del router de la victima y el Nombre del access point
 
             clientes_Conectados=[]
-            Ap_data = connection1.send_command("iwinfo wl0 assoc")
+            Ap_data = connection1.send_command("iwinfo wlan0 assoc")
             Ap_data_splitline = Ap_data.splitlines()
             for clientes in Ap_data_splitline:
                 clientes_Conectados.append(clientes.split()[0])
             #Se obtiene las MAC Address de los clientes conectados al router
             print("Se esta monitoreando el router con MAC Address "+Ap_macaddress + ' : '+ verifica_Clientes_Conectados(clientes_Conectados,AP_name))
-            #if(clientes_Conectados[0]=='No'):
-            #    print("No hay dispositivos conectados en la red "+ AP_name)
-            #else:
-            #    print("Los siguientes dispositivos se encuentran conectados en la red: "+ AP_name)
-            #    print(clientes_Conectados)
 
             doc_Ap_macaddress_ref = db.collection('mac_attackers').document(Ap_macaddress)
             doc__Ap_macaddress_dataframe = doc_Ap_macaddress_ref.get()
@@ -134,6 +129,7 @@ while(True):
             clientes_Conectados=[]
             time.sleep(5)
         except Exception as e:
+            print(e)
             print('Error al tratar de realizar la conexion con Ip : '+ ip +' Infraestructura pequenia/mediana cobertura.')
             malasIp.append(ip)
             time.sleep(2)
@@ -163,7 +159,7 @@ while(True):
             Ap_credentials["ip"]=ip
             try:
                 connection1 = nk.ConnectHandler(**Ap_credentials)
-                Ap_data = connection1.send_command("horst -q -e "+ victima+ " -o /proc/self/fd/2",expect_string="PROBRQ") # Si se necesita sensar valores rss de dispositivos conectados a la red cambiar el parametro de expect_string a cualquier otro tipo de paquete . ej: NULL o ACK
+                Ap_data = connection1.send_command("horst -q -e "+ victima+ " -o /proc/self/fd/2",expect_string="PROBRQ") # Si se necesita sensar valores rss de dispositivos conectados a la red cambiar el parametro de expect_string a cualquier otro tipo de paquete . OJO: QDNULL SI ESTA CONECTADO / PROBRQ SI NO ESTA CONECTADO A LA RED
                 lista_dispositivos = Ap_data.splitlines()
                 for cada_dispositivo in lista_dispositivos:   
                     if victima in cada_dispositivo:
