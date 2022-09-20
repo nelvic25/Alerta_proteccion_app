@@ -75,7 +75,7 @@ while(True):
         Ap_credentials["ip"]=ip
         try:
             connection1 = nk.ConnectHandler(**Ap_credentials)
-            Ap_data = connection1.send_command("iwinfo wl0 info")
+            Ap_data = connection1.send_command("iwinfo wlan0 info")
             Ap_data_splitline = Ap_data.splitlines()[1:2:1]
             Ap_data_splitline2 = Ap_data.splitlines()[:1:1] #PARA SACAR EL NOMBRE DEL ACCESS POINT
             Ap_data_list=Ap_data_splitline[0].split()
@@ -85,17 +85,12 @@ while(True):
             #Se obtiene la MAC Address del router de la victima y el Nombre del access point
 
             clientes_Conectados=[]
-            Ap_data = connection1.send_command("iwinfo wl0 assoc")
+            Ap_data = connection1.send_command("iwinfo wlan0 assoc")
             Ap_data_splitline = Ap_data.splitlines()
             for clientes in Ap_data_splitline:
                 clientes_Conectados.append(clientes.split()[0])
             #Se obtiene las MAC Address de los clientes conectados al router
             print("Se esta monitoreando el router con MAC Address "+Ap_macaddress + ' : '+ verifica_Clientes_Conectados(clientes_Conectados,AP_name))
-            #if(clientes_Conectados[0]=='No'):
-            #    print("No hay dispositivos conectados en la red "+ AP_name)
-            #else:
-            #    print("Los siguientes dispositivos se encuentran conectados en la red: "+ AP_name)
-            #    print(clientes_Conectados)
 
             doc_Ap_macaddress_ref = db.collection('mac_attackers').document(Ap_macaddress)
             doc__Ap_macaddress_dataframe = doc_Ap_macaddress_ref.get()
@@ -134,94 +129,153 @@ while(True):
             clientes_Conectados=[]
             time.sleep(5)
         except Exception as e:
+            print(e)
             print('Error al tratar de realizar la conexion con Ip : '+ ip +' Infraestructura pequenia/mediana cobertura.')
-            print('Eliminando registro '+ ip + ' ...')
-            #listaIp_peq.remove(ip)
             malasIp.append(ip)
-            #print (e)
             time.sleep(2)
-       
-    for victima in lista_victimas_globales:
-        lista_valores_rss=[]
-        for ip in listaIp_gra:
-            Ap_credentials["ip"]=ip
-            try:
-                connection1 = nk.ConnectHandler(**Ap_credentials)
-                Ap_data = connection1.send_command("horst")
-                lista_dispositivos = Ap_data.splitlines()
-                for cada_dispositivo in lista_dispositivos:
-                    if victima in cada_dispositivo:
-                        lista_valores_rss.append(cada_dispositivo.split()[2])
 
-                time.sleep(3)
-            except Exception as e:
-                print('Error al tratar de realizar la conexion con el Ip : '+ ip +' Infraestructura gran cobertura.')
-                print('Eliminando registro '+ ip + ' ...')
-                #listaIp_gra.remove(ip)
-                malasIp.append(ip)
-                time.sleep(2)
-
-        for ip in malasIp:
+    for ip in listaIp_gra:
+        Ap_credentials["ip"]=ip
+        try:
+            connection1 = nk.ConnectHandler(**Ap_credentials)
+        except Exception as e:
+            print('Error al tratar de realizar la conexion con el Ip : '+ ip +' Infraestructura gran cobertura.')
+            malasIp.append(ip)
+            time.sleep(1)
+    
+    if (len(malasIp)>0):
+        print("Purgando Ip's registradas... ")
+    for ip in malasIp:
             if ip in listaIp_gra :
                 listaIp_gra.remove(ip)
             elif ip in listaIp_peq : 
                 listaIp_peq.remove(ip)
+    malasIp=[]
 
-        print(victima+" Esta solicitando ayuda. Posicionando... ")
+    for victima in lista_victimas_globales:
+        lista_valores_rss=[]
+        for ip in listaIp_gra:
+            contador=0
+            Ap_credentials["ip"]=ip
+            try:
+                connection1 = nk.ConnectHandler(**Ap_credentials)
+                Ap_data = connection1.send_command("horst -q -e "+ victima+ " -o /proc/self/fd/2",expect_string="PROBRQ") # Si se necesita sensar valores rss de dispositivos conectados a la red cambiar el parametro de expect_string a cualquier otro tipo de paquete . OJO: QDNULL SI ESTA CONECTADO / PROBRQ SI NO ESTA CONECTADO A LA RED
+                lista_dispositivos = Ap_data.splitlines()
+                for cada_dispositivo in lista_dispositivos:   
+                    if victima in cada_dispositivo:
+                        if contador<1:
+                            valor_rss=cada_dispositivo.split()[8]
+                            lista_valores_rss.append(valor_rss[1:-1])
+                            contador=contador+1
+                time.sleep(1)
+            except Exception as e:
+                print("No se pudo obtener el valor RSS de "+victima +" desde el router "+ip)
+                time.sleep(1)       
+        
+        if len(lista_valores_rss)==1 :
+            #for elemento in lista_valores_rss:
+            print(lista_valores_rss) 
 
-        # Modelo Matemático de canal PATH LOSS RSSI=-10nlog(d/d0)+RSSI0 - 15
-        # rssi0 = -14  # Valor promedio de RSSI a una distancia d0/ d0=1
-        # n = 4  # Factor de atenuación en interiores
+        elif len(lista_valores_rss)==2:
+            #Posicionamiento con 2 AP
+            print(victima+" Esta solicitando ayuda. Posicionando... ")
+             # Modelo Matemático de canal PATH LOSS RSSI=-10nlog(d/d0)+RSSI0 - 15
+            rssi0 = -14  # Valor promedio de RSSI a una distancia d0/ d0=1
+            n = 4  # Factor de atenuación en interiores
 
-        # rssiT1 = (rssi0-lista_valores_rss[0]-15)/(10*n)
-        # d1 = 10**(rssiT1)
-        # rssiT2 = (rssi0-(lista_valores_rss[1])-15)/(10*n)
-        # d2 = 10**(rssiT2)
-        # #rssiT3 = (rssi0-(lista_valores_rss[2])-15)/(10*n)
-        # #d3= 10**(rssiT3)
+            rssiT1 = (rssi0-int(lista_valores_rss[0])-15)/(10*n)
+            d1 = 10**(rssiT1)
+            rssiT2 = (rssi0-int(lista_valores_rss[1])-15)/(10*n)
+            d2 = 10**(rssiT2)
 
-        # #COORDENADAS DE LOS AP CONOCIDOS
-        # x1 = 0
-        # x2 = 0
-        # #x3 = 7.35
-        # y1 = -7.35
-        # y2 = 7.35
-        # #y3 = 0
+            #COORDENADAS DE LOS AP CONOCIDOS
+            x1 = 0
+            x2 = 0
+            y1 = -7.35
+            y2 = 7.35
 
-        # x, y = var('x y')
-        # #x, y , z= var('x y z')
+            x, y = var('x y')
+
+            # Trilateración Mínimos Cuadrados con solo dos Access Points :  (xi-x)^2 + (yi-y)^2 = d^2
+            f1 = (x-x1)**2 + (y-y1)**2 - d1**2
+            f2 = (x-x2)**2 + (y-y2)**2 - d2**2
+
+            sols = solve((f1, f2), (x, y))
+
+            if(("I" in str(sols[0][0])) or ("I" in str(sols[0][1]))):
+                cx = str(sols[0][0])[0:-2]
+                cx= float(cx)
+                cy = float(sols[0][1])
+                coorx = round(cx, 2)
+                coory = round(cy, 2)
+                print(cx)
+            else: 
+                cx = float(sols[0][0])
+                cy = float(sols[0][1])
+                coorx = round(cx, 2)
+                coory = round(cy, 2)
+
+            #Actualizando Posicion en la base de datos
+            datos2={
+                "PosicionX": coorx,
+                "PosicionY": coory,
+            }
+            print("Coordenadas : ("+coorx+","+coory+")")
+            db.collection('global_alerts').document(victima).set(datos2,merge=True)#SE ESTA ACTUALIZANDO LA POSICION CONSTANTEMENTE DE CADA DISPOSITIVO QUE ESTA PIDIENDO SOCORRO EN LA COLECCION GLOBAL ALERTS
 
 
-        # # Trilateración Mínimos Cuadrados con solo dos Access Points :  (xi-x)^2 + (yi-y)^2 = d^2
+        elif len (lista_valores_rss)>2:
+            #Posicionamiento con 3 AP
+            print(victima+" Esta solicitando ayuda. Posicionando... ")
 
-        # f1 = (x-x1)**2 + (y-y1)**2 - d1**2
-        # f2 = (x-x2)**2 + (y-y2)**2 - d2**2
-        # f3 = (x-x3)**2 + (y-y3)**2 - d3**2
+            # Modelo Matemático de canal PATH LOSS RSSI=-10nlog(d/d0)+RSSI0 - 15
+            rssi0 = -14  # Valor promedio de RSSI a una distancia d0/ d0=1
+            n = 4  # Factor de atenuación en interiores
 
-        # sols = solve((f1, f2, f3), (x, y))
-        # print(sols)
+            rssiT1 = (rssi0-int(lista_valores_rss[0])-15)/(10*n)
+            d1 = 10**(rssiT1)
+            rssiT2 = (rssi0-int(lista_valores_rss[1])-15)/(10*n)
+            d2 = 10**(rssiT2)
+            rssiT3 = (rssi0-int(lista_valores_rss[2])-15)/(10*n)
+            d3= 10**(rssiT3)
 
-        # if(("I" in str(sols[1][0])) or ("I" in str(sols[1][1]))):
-        #     cx = str(sols[1][0])[0:-2]
-        #     cx= float(cx)
-        #     cy = float(sols[1][1])
-        #     coorx = round(cx, 2)
-        #     coory = round(cy, 2)
-        #     print(cx)
-        # else: 
-        #     cx = float(sols[1][0])
-        #     cy = float(sols[1][1])
-        #     coorx = round(cx, 2)
-        #     coory = round(cy, 2)
+            #COORDENADAS DE LOS AP CONOCIDOS
+            x1 = 0
+            x2 = 0
+            x3 = 7.35
+            y1 = -7.35
+            y2 = 7.35
+            y3 = 0
 
+            x, y = var('x y')
 
-        datos2={
-            "PosicionX": 'coorx',
-            "PosicionY": 'coory',
-        }
-        db.collection('global_alerts').document(victima).set(datos2,merge=True)#SE ESTA ACTUALIZANDO LA POSICION CONSTANTEMENTE DE CADA DISPOSITIVO QUE ESTA PIDIENDO SOCORRO EN LA COLECCION GLOBAL ALERTS
+            # Trilateración Mínimos Cuadrados con solo dos Access Points :  (xi-x)^2 + (yi-y)^2 = d^2
+            f1 = (x-x1)**2 + (y-y1)**2 - d1**2
+            f2 = (x-x2)**2 + (y-y2)**2 - d2**2
+            f3 = (x-x3)**2 + (y-y3)**2 - d3**2
+
+            sols = solve((f1, f2, f3), (x, y))
+
+            if(("I" in str(sols[0][0])) or ("I" in str(sols[0][1]))):
+                cx = str(sols[0][0])[0:-2]
+                cx= float(cx)
+                cy = float(sols[0][1])
+                coorx = round(cx, 2)
+                coory = round(cy, 2)
+                print(cx)
+            else: 
+                cx = float(sols[0][0])
+                cy = float(sols[0][1])
+                coorx = round(cx, 2)
+                coory = round(cy, 2)
+
+            #Actualizando Posicion en la base de datos
+            datos2={
+                "PosicionX": coorx,
+                "PosicionY": coory,
+            }
+            print("Coordenadas : ("+coorx+","+coory+")")
+            db.collection('global_alerts').document(victima).set(datos2,merge=True)#SE ESTA ACTUALIZANDO LA POSICION CONSTANTEMENTE DE CADA DISPOSITIVO QUE ESTA PIDIENDO SOCORRO EN LA COLECCION GLOBAL ALERTS
 
         
-
-       
 
