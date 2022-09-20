@@ -5,6 +5,7 @@ import 'package:login_firebase/funciones_firestore_Read.dart';
 import 'package:login_firebase/main.dart';
 import 'package:login_firebase/funciones_firestore_Write.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 
 
 
@@ -87,6 +88,29 @@ class Home2 extends StatelessWidget {
 
                   FloatingActionButton.large(
                     onPressed: () {
+                      //FUNCIÓN QUE LLAMA DIRECTAMENTE A LA POLICIA(911)
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => AlertDialog(
+                          title: Text(" LLAMAR A EMERGENCIAS Y ENVIAR ALERTAS A USUARIOS CERCANOS!"),
+                          content: Text("Está seguro?"),
+                          actions:<Widget> [
+                            FlatButton(
+                              child: Text("SÍ"),
+                              onPressed:() async {
+                                FlutterPhoneDirectCaller.callNumber("911");
+                              },
+                            ),
+                            FlatButton(
+                              child: Text("CANCELAR"),
+                              onPressed:() {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
                     },
                     child:
                     //const Text('Bontón de Panico'),
@@ -109,29 +133,26 @@ class Home2 extends StatelessWidget {
                   ),
                   onPressed:() {
 
-                    //FUNCIÓN QUE LLAMA DIRECTAMENTE A LA POLICIA(911)
                     showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => AlertDialog(
-                        title: Text(" LLAMAR A EMERGENCIAS Y ENVIAR ALERTAS A USUARIOS CERCANOS!"),
-                        content: Text("Está seguro?"),
-                        actions:<Widget> [
-                          FlatButton(
-                            child: Text("SÍ"),
-                            onPressed:() async {
-                              FlutterPhoneDirectCaller.callNumber("911");
-                            },
+                        context: context,builder: (_) => AssetGiffyDialog(
+
+                          image: Image.asset ('assets/map.png', fit: BoxFit.cover,),
+                          title: Text('Usuarios en el Área',
+                            style: TextStyle(
+                                fontSize: 20.0, fontWeight: FontWeight.w500),
                           ),
-                          FlatButton(
-                            child: Text("CANCELAR"),
-                            onPressed:() {
-                              Navigator.of(context).pop();
-                            },
+                          description: Text('Un usuario necesita ayuda!',
+                            //This library helps you easily create fancy giffy dialog.'
+                            textAlign: TextAlign.center,
+                            style: TextStyle(),
                           ),
-                        ],
-                      ),
-                    );
+                          entryAnimation: EntryAnimation.TOP,
+                            onOkButtonPressed: () {Navigator.of(context).pop();},
+                        onCancelButtonPressed: () {Navigator.of(context).pop();},
+                          //onlyOkButton: () {},
+                    ) );
+
+
 
                   },
                   padding:EdgeInsets.symmetric(vertical: 20, horizontal: 40),

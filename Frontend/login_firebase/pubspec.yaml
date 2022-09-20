@@ -48,6 +48,7 @@ dependencies:
   #get_mac: ^0.0.1
   macadress_gen: ^0.0.4
   flutter_phone_direct_caller: ^2.1.1
+  giffy_dialog: 1.8.0
 
 dev_dependencies:
   flutter_test:
