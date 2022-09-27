@@ -1,5 +1,3 @@
-# Alerta_proteccion_app
-
 # Aplicación móvil para prevenir la violencia contra las mujeres utilizando técnicas de localización :
 
 # Backend:
@@ -16,5 +14,5 @@ Código de aplicativo utilizando el framework Flutter, para sistemas operativos 
 - Obtiene y almacena los tokens de cada dispositivo utilizado por el usuario, para recibir correctamente las alertas.
 
 # Autores :
-Priscilla Nicole Uquillas Anguisaca
-Nelson Vicente Vera Méndez
+- Priscilla Nicole Uquillas Anguisaca
+- Nelson Vicente Vera Méndez
